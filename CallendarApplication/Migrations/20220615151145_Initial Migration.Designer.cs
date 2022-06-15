@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace CallendarApplication.Data.Migrations
+namespace CallendarApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220615103538_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20220615151145_Initial Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
