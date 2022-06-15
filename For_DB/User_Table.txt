@@ -1,0 +1,7 @@
+CREATE TABLE "public".User_Table
+(
+ Username text NOT NULL,
+ Fullname text NOT NULL,
+ Password text NOT NULL,
+ CONSTRAINT PK_7 PRIMARY KEY ( Username )
+);
