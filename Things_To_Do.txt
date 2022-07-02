@@ -1,4 +1,0 @@
--Privacy Delete
--Login Page as main
-- Connect DB
--Login/Register Functionality
