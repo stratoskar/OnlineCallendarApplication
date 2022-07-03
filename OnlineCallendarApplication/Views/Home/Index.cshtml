@@ -3,106 +3,102 @@
 }
 
 <!doctype html>
-<html lang="en" data-framework="javascript">
-<head>
+<html lang="en">
+  <head>
+  	<title>Online Calendar</title>
     <meta charset="utf-8">
-    <title>Calendar App</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/calendar.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<body>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
-    <div id="app" class="main">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="~/css/calendar/style.css">
 
-        <div class="date-month">
-            <h2><i class="far fa-calendar-alt"></i> Appointments {{ month }} {{ year }}</h2>
-        </div>
-        <!-- area callendar appointment -->
-        <div class="calendar">
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Welcome to your callendar</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="content w-100">
+				    <div class="calendar-container">
+				      <div class="calendar"> 
+				        <div class="year-header"> 
+				          <span class="left-button fa fa-chevron-left" id="prev"> </span> 
+				          <span class="year" id="label"></span> 
+				          <span class="right-button fa fa-chevron-right" id="next"> </span>
+				        </div> 
+				        <table class="months-table w-100"> 
+				          <tbody>
+				            <tr class="months-row">
+				              <td class="month">Jan</td> 
+				              <td class="month">Feb</td> 
+				              <td class="month">Mar</td> 
+				              <td class="month">Apr</td> 
+				              <td class="month">May</td> 
+				              <td class="month">Jun</td> 
+				              <td class="month">Jul</td>
+				              <td class="month">Aug</td> 
+				              <td class="month">Sep</td> 
+				              <td class="month">Oct</td>          
+				              <td class="month">Nov</td>
+				              <td class="month">Dec</td>
+				            </tr>
+				          </tbody>
+				        </table> 
+				        
+				        <table class="days-table w-100"> 
+				          <td class="day">Sun</td> 
+				          <td class="day">Mon</td> 
+				          <td class="day">Tue</td> 
+				          <td class="day">Wed</td> 
+				          <td class="day">Thu</td> 
+				          <td class="day">Fri</td> 
+				          <td class="day">Sat</td>
+				        </table> 
+				        <div class="frame"> 
+				          <table class="dates-table w-100"> 
+			              <tbody class="tbody">             
+			              </tbody> 
+				          </table>
+				        </div> 
+				        <button class="button" id="add-button">Add Event</button>
+				      </div>
+				    </div>
+				    <div class="events-container">
+				    </div>
+				    <div class="dialog" id="dialog">
+				        <h2 class="dialog-header"> Add New Event </h2>
+				        <form class="form" id="form">
+                            <div class="form-container" align="center">
+                                <label class="form-label" id="valueFromMyButton" for="name">Event name</label>
+                                <input class="input" type="text" id="name" maxlength="36">
+                                <label class="form-label" id="valueFromMyButton" for="count">Number of people to invite</label>
+                                <input class="input" type="number" id="count" min="0" max="1000000" maxlength="7">
+                                <!-- Added this statement-->
+								<label class="form-label" id="valueFromMyButton" for="which_people">Enter emails:</label>
+                                <input class="input" type="text" id="members" min="0" max="10000000000" maxlength="7">
+                                <input type="button" value="Cancel" class="button" id="cancel-button">
+                                <input type="button" value="OK" class="button button-white" id="ok-button">
+                            </div>
+				        </form>
+				      </div>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-            <table style="overflow-x:auto;">
-                <!-- days week  -->
-                <tr class="date-days">
-                    <th v-for="days in daysWeek">
-                        <h3>{{ days }}</h3>
-                    </th>
-                </tr>
-                <!-- end days week  -->
-                <!-- days callendar  -->
-                <tr class="date-days">
-                    <td v-for="date in endDateMonth" v-if="date <= 7" onclick="openModal(date)" ref="date">
-                        <p class="day">{{ date }}</p>
-                    </td>
-                </tr>
+	<script src="~/js/calendar/jquery.min.js"></script>
+  <script src="~/js/calendar/popper.js"></script>
+  <script src="~/js/calendar/bootstrap.min.js"></script>
+  <script src="~/js/calendar/main.js"></script>
 
-                <tr class="date-days">
-                    <td v-for="date in endDateMonth" v-if="date >= 8 && date <= 14 " onclick="openModal(date)" ref="date">
-                        <p class="day">{{ date }}</p>
-                    </td>
-                </tr>
-
-                <tr class="date-days">
-                    <td v-for="date in endDateMonth" v-if="date >= 15 && date <= 21 " onclick="openModal(date)" ref="date">
-                        <p class="day">{{ date }}</p>
-                    </td>
-                </tr>
-
-                <tr class="date-days">
-                    <td v-for="date in endDateMonth" v-if="date >= 22 && date <= 28 " onclick="openModal(date)" ref="date">
-                        <p class="day">{{ date }}</p>
-                    </td>
-                </tr>
-
-                <tr class="date-days">
-                    <td v-for="date in endDateMonth" v-if="date >= 29" onload="openModal(date)" ref="date">
-                        <p class="day">{{ date }}</p>
-                    </td>
-                </tr>
-                <!-- end days callendar  -->
-
-            </table>
-        </div>
-        <!-- end area callendar appointment -->
-        <!-- modal add, edit remove events-->
-        <div class="modal" v-show="modal">
-            <div class="modal-content">
-                <h3 v-show="!editMode">
-                    <i class="far fa-calendar-alt"></i>
-                    Add new appointment day {{ dayAppointment}}
-                </h3>
-                <h3 v-show="editMode">
-                    <i class="far fa-calendar-alt"></i>
-                    Edit appointment day {{ dayAppointment }}
-                </h3>
-
-                <div>
-                    <input type="text" v-model="nameAppointment" placeholder="Name Appointment"><br>
-                    <i class="error-msg">{{messageErro}}</i><br>
-                </div>
-
-                <div>
-                    <button class="add" onclick="addAppointment()" v-show="!editMode"><i class="fas fa-check"></i> Add</button>
-                    <button class="edit" onclick="editAppointment()" v-show="editMode">
-                        <i class="fas fa-pencil-alt"></i>
-                        Edit
-                    </button>
-                    <button class="delete" onclick="deleteAppointment()" v-show="editMode">
-                        <i class="fas fa-times"></i>
-                        Delete
-                    </button>
-                    <button class="cancel" onclick="closeModal()"><i class="fas fa-ban"></i> Cancel</button>
-                </div>
-            </div>
-        </div>
-        <!-- end modal add, edit remove events -->
-
-    </div>
-
-    <script src="https://momentjs.com/downloads/moment.js"></script>
-    <script src="~/js/calendar.js"></script>
-</body>
-
+	</body>
 </html>
