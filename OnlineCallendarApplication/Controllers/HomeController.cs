@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Npgsql;
 
 namespace OnlineCallendarApplication.Controllers
 {
@@ -41,5 +42,19 @@ namespace OnlineCallendarApplication.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        /*
+           List<String> usernames = new List<String>();
+           List<String> password = new List<String>();
+           var cs = "Host=localhost;Username=postgres;Password=grepolis2001;Database=Callendar_DB";
+           using var con = new NpgsqlConnection(cs);
+           con.Open();
+           SqlCommand cmd = new SqlCommand("SELECT * FROM user_table;");
+           SqlDataReader reader = cmd1.ExecuteReader();
+           while(reader.Read() == true){
+            
+                  usernames.Add(reader.GetOrdinal("username"));
+                  password.Add(reader.GetOrdinal("password"));
+        }
+         */
     }
 }
