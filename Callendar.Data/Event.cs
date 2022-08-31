@@ -6,19 +6,25 @@ using System.Text;
 
 namespace Callendar.Data
 {
+
+    // attributes of table Event
     public class Event
     {
         [Key] // Event_ID is the primary key of the table User
         public int Event_ID { get; set; }
+
         [Required]
         public DateTime Start_Time { get; set; }
+
         [Required]
         [ForeignKey("User")]
         public string Owner_Username { get; set; }
+
         [Required]
         public DateTime Date { get; set; }
-        [Required]
+        
         public string Collaborators { get; set; }
+
         [Required]
         public DateTime Duration { get; set; }
 

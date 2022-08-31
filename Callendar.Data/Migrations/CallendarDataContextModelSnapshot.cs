@@ -15,19 +15,18 @@ namespace Callendar.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseSerialColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
             modelBuilder.Entity("Callendar.Data.Event", b =>
                 {
                     b.Property<int>("Event_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .UseSerialColumn();
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("Collaborators")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Date")

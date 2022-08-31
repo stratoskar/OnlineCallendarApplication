@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Callendar.Data.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class Initial_Database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace Callendar.Data.Migrations
                     Start_Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Owner_Username = table.Column<string>(type: "text", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Collaborators = table.Column<string>(type: "text", nullable: false),
+                    Collaborators = table.Column<string>(type: "text", nullable: true),
                     Duration = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>

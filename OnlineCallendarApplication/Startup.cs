@@ -6,11 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Callendar.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineCallendarApplication
 {
@@ -34,7 +29,7 @@ namespace OnlineCallendarApplication
         }
 
         // This method gets called by the   runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IHost host)
         {
            
             if (env.IsDevelopment())
@@ -60,6 +55,8 @@ namespace OnlineCallendarApplication
                     name: "default",
                     pattern: "{controller=Home}/{action=Login}/{id?}");
             });
+
+            host.Seed(); // add data to database if its empty
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Callendar.Data
             modelBuilder.UseSerialColumns();
         }
 
-        // create the tables
+        // create the tables of the database
         public DbSet<User> User { get; set; }
         public DbSet<Event> Event { get; set; }
     }
