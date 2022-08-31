@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCallendarApplication", "OnlineCallendarApplication.csproj", "{B2D06FCE-C792-4BCA-BC94-4C427B6C77AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCallendarApplication", "OnlineCallendarApplication.csproj", "{B2D06FCE-C792-4BCA-BC94-4C427B6C77AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Callendar.Data", "..\Callendar.Data\Callendar.Data.csproj", "{2D819437-7BB4-43C6-9945-BE6D688FBD1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B2D06FCE-C792-4BCA-BC94-4C427B6C77AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2D06FCE-C792-4BCA-BC94-4C427B6C77AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2D06FCE-C792-4BCA-BC94-4C427B6C77AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D819437-7BB4-43C6-9945-BE6D688FBD1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D819437-7BB4-43C6-9945-BE6D688FBD1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D819437-7BB4-43C6-9945-BE6D688FBD1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D819437-7BB4-43C6-9945-BE6D688FBD1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
