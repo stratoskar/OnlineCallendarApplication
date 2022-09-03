@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Npgsql;
+using System.Data;
+using Callendar.Data;
 
 namespace OnlineCallendarApplication.Controllers
 {
@@ -23,6 +25,29 @@ namespace OnlineCallendarApplication.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult F()
+        {
+            List<User> display_User = new List<User>();
+            NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
+            conn.Open();
+            NpgsqlCommand comm = new NpgsqlCommand();
+            comm.Connection = conn;
+            comm.CommandType = CommandType.Text;
+            comm.CommandText = "SELECT * FROM public.\"User\"";
+
+            NpgsqlDataReader sdr = comm.ExecuteReader();
+            while (sdr.Read())
+            {
+                var user_list = new User();
+                user_list.Username = sdr["Username"].ToString();
+                user_list.Fullname = sdr["Fullname"].ToString();
+                user_list.Password = sdr["Password"].ToString();
+                display_User.Add(user_list);
+            }
+            conn.Close();
+            return View(display_User);
         }
 
         // open Register page
