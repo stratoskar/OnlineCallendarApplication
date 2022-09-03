@@ -29,6 +29,8 @@ namespace OnlineCallendarApplication.Controllers
 
         public IActionResult F()
         {
+            
+            
             List<User> display_User = new List<User>();
             NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
             conn.Open();
@@ -48,38 +50,51 @@ namespace OnlineCallendarApplication.Controllers
             }
             conn.Close();
             return View(display_User);
-        }
 
-        // open Register page
-        public IActionResult Register()
-        {
-            return View();
-        }
+            /* Write
+             * string query = string.Format("Insert into public.\"User\" values ('{0}','{1}','{2}')", "Kokou", "Full", "Pass");
+              NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
+              conn.Open();
+              NpgsqlCommand comm = new NpgsqlCommand(query,conn);
+              comm.Connection = conn;
+              comm.CommandType = CommandType.Text;
+              comm.ExecuteNonQuery();
+              conn.Close();
+            */
 
-        // open Login page
-        public IActionResult Login()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+          }
+
+          // open Register page
+          public IActionResult Register()
+          {
+              return View();
+          }
+
+          // open Login page
+          public IActionResult Login()
+          {
+              return View();
+          }
+
+          [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+          public IActionResult Error()
+          {
+              return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+          }
+          /*
+             List<String> usernames = new List<String>();
+             List<String> password = new List<String>();
+             var cs = "Host=localhost;Username=postgres;Password=grepolis2001;Database=Callendar_DB";
+             using var con = new NpgsqlConnection(cs);
+             con.Open();
+             SqlCommand cmd = new SqlCommand("SELECT * FROM user_table;");
+             SqlDataReader reader = cmd1.ExecuteReader();
+             while(reader.Read() == true){
+
+                    usernames.Add(reader.GetOrdinal("username"));
+                    password.Add(reader.GetOrdinal("password"));
+          }
+           */
         }
-        /*
-           List<String> usernames = new List<String>();
-           List<String> password = new List<String>();
-           var cs = "Host=localhost;Username=postgres;Password=grepolis2001;Database=Callendar_DB";
-           using var con = new NpgsqlConnection(cs);
-           con.Open();
-           SqlCommand cmd = new SqlCommand("SELECT * FROM user_table;");
-           SqlDataReader reader = cmd1.ExecuteReader();
-           while(reader.Read() == true){
-            
-                  usernames.Add(reader.GetOrdinal("username"));
-                  password.Add(reader.GetOrdinal("password"));
-        }
-         */
     }
-}
