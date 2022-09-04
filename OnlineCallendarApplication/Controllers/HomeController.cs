@@ -14,6 +14,7 @@ namespace OnlineCallendarApplication.Controllers
 {
     public class HomeController : Controller
     {
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001;");
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -26,56 +27,49 @@ namespace OnlineCallendarApplication.Controllers
         {
             return View();
         }
-
-        public IActionResult F()
+        public IActionResult LoginValidation(string username,string password)
         {
-            
-            
-            List<User> display_User = new List<User>();
-            NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
+            string GivenUsername = Request.Form["username"].ToString();
+            string GivenPassword = Request.Form["password"].ToString();
             conn.Open();
             NpgsqlCommand comm = new NpgsqlCommand();
             comm.Connection = conn;
             comm.CommandType = CommandType.Text;
             comm.CommandText = "SELECT * FROM public.\"User\"";
-
             NpgsqlDataReader sdr = comm.ExecuteReader();
-            while (sdr.Read())
-            {
-                var user_list = new User();
-                user_list.Username = sdr["Username"].ToString();
-                user_list.Fullname = sdr["Fullname"].ToString();
-                user_list.Password = sdr["Password"].ToString();
-                display_User.Add(user_list);
+            while (sdr.Read()) {
+                if (sdr["Username"].Equals(GivenUsername) && sdr["Password"].Equals(GivenPassword))
+                {
+                    return View("Index");
+                }
+                else {
+                    continue;
+                }
             }
+            return View("Login");
+          
+        }
+        public IActionResult RegisterValidation(string username,string fullname,string password) {
+            string query = string.Format("Insert into public.\"User\" values ('{0}','{1}','{2}')", username, fullname, password);          
+            conn.Open();
+            NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+            comm.Connection = conn;
+            comm.CommandType = CommandType.Text;
+            comm.ExecuteNonQuery();
             conn.Close();
-            return View(display_User);
-
-            /* Write
-             * string query = string.Format("Insert into public.\"User\" values ('{0}','{1}','{2}')", "Kokou", "Full", "Pass");
-              NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
-              conn.Open();
-              NpgsqlCommand comm = new NpgsqlCommand(query,conn);
-              comm.Connection = conn;
-              comm.CommandType = CommandType.Text;
-              comm.ExecuteNonQuery();
-              conn.Close();
-            */
-
-
-          }
-
+            return View("Index");
+        }
           // open Register page
-          public IActionResult Register()
+        public IActionResult Register()
           {
               return View();
           }
 
-          // open Login page
-          public IActionResult Login()
+        // open Login page
+        public IActionResult Login()
           {
-              return View();
-          }
+            return View();
+        }
 
           [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
           public IActionResult Error()
