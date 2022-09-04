@@ -158,24 +158,3 @@
         <br>
     </body>
 </html>
-
-<script>
-    const form = document.getElementById("login");
-
-    //functions that run after every radio button click.Depending on the radio button selected, the form action changes
-    //in order for the user to be redirected to the corresponding servlet
-    function AdminAction() {
-        if (document.getElementById("Admin").checked)
-            form.action = "admin";
-    }
-
-    function PatientAction() {
-        if (document.getElementById("Patient").checked)
-            form.action = "patient";
-    }
-
-    function DoctorAction() {
-        if (document.getElementById("Doctor").checked)
-            form.action = "doctor";
-    }
-</script>
