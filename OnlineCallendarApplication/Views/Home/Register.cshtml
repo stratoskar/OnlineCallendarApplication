@@ -145,7 +145,7 @@
 </head>
 
 <body>
-    <form action="RegisterInsertion" method="post" name="signup" onsubmit="return validation()">
+    <form action="https://localhost:44394/Home/RegisterInsertion" method="post" name="signup" onsubmit="return validation()">
 
         <input type="hidden" , value="5" , name="patient_action">
 
@@ -162,13 +162,13 @@
         <div class="container">
 
             <label><b style="color:#012A6C">Full name: *</b></label>
-            <input type="text" id="fn" placeholder="Enter your Full name" name="fullname" required>
+            <input type="text" id="fullname" placeholder="Enter your fullname" name="fullname" required>
 
             <label><b style="color:#012A6C">Username: *</b></label>
-            <input type="text" id="username" placeholder="Enter username" name="username" required>
+            <input type="text" id="username" placeholder="Enter your username" name="username" required>
 
             <label><b style="color:#012A6C">Password: *</b></label>
-            <input type="password" id="password" placeholder="Enter password" name="password" required>
+            <input type="password" id="password" placeholder="Enter your password" name="password" required>
 
         </div>
 
@@ -188,13 +188,10 @@
             function validation()
             {
                 // get the values of inputs that user gave in the form
-                var first_name = document.getElementById("fn").value;
-                var last_name = document.getElementById("ln").value;
+                var fullname = document.getElementById("fullname").value;
                 var username = document.getElementById("username").value;
                 var password = document.getElementById("password").value;
-                var age = document.getElementById("age").value;
-                var AMKA = document.getElementById("AMKA").value;
-                var error_message = document.getElementById("error_message");
+                
 
                 var text; // set a new variable
 
@@ -204,21 +201,13 @@
                 // validation check begins
 
                 // check first name
-                if (!/^[A-Z][a-z]+$/.test(first_name))
+                if (!/^[A-Z][a-z]+$/.test(fullname))
                 {
                     text = "First name includes at least two letters and should begin with a capital letter!";
                     error_message.innerHTML = text;
                     return false;
                 }
-
-                // check last name
-                if (!/^[A-Z][a-z]+$/.test(last_name))
-                {
-                    text = "Last name includes at least two letters and should begin with a capital letter!";
-                    error_message.innerHTML = text;
-                    return false;
-                }
-
+                
                 // check username
                 if (!/\S/.test(username))
                 {
@@ -231,22 +220,6 @@
                 if (password.length < 4)
                 {
                     text = "Password consists of at least 4 characters!";
-                    error_message.innerHTML = text;
-                    return false;
-                }
-
-                // check age
-                if (!/^[0-9]+$/.test(age) || age > 119 || age <= 0)
-                {
-                    text = "Age consist of positive integer numbers and is lower than or equal to 119!";
-                    error_message.innerHTML = text;
-                    return false;
-                }
-
-                // check AMKA
-                if (!/^\d{11}$/.test(AMKA))
-                {
-                    text = "AMKA should be a 11-digit number!";
                     error_message.innerHTML = text;
                     return false;
                 }

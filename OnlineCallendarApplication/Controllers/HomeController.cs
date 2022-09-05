@@ -58,27 +58,34 @@ namespace OnlineCallendarApplication.Controllers
                 }
             }
 
-            return View("Login"); // Go to the login page if user's input is not valid  
+            return View("Error"); // Go to the login page if user's input is not valid  
         }
 
         // This method is called in order to add a new user
         // to database
         public IActionResult RegisterInsertion(string username, string fullname, string password)
         {
+            try
+            {
+                string query = string.Format("Insert into public.\"User\" values ('{0}','{1}','{2}')", username, fullname, password);
 
-            string query = string.Format("Insert into public.\"User\" values ('{0}','{1}','{2}')", username, fullname, password);
+                conn.Open();
 
-            conn.Open();
+                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
 
-            NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.ExecuteNonQuery();
+                conn.Close();
 
-            comm.Connection = conn;
-            comm.CommandType = CommandType.Text;
-            comm.ExecuteNonQuery();
-            conn.Close();
-
-            // after insert query, user will have access to his main page
-            return View("Index");
+                // after insert query, user will have access to his main page
+                return View("Index");
+            }
+            catch (Exception e)
+            {
+                conn.Close();
+                return View("Error");
+            }
         }
 
         public IActionResult Register()
@@ -89,12 +96,6 @@ namespace OnlineCallendarApplication.Controllers
         public IActionResult Login()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
     }
