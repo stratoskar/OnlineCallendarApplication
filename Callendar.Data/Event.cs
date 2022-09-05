@@ -11,22 +11,20 @@ namespace Callendar.Data
     public class Event
     {
         [Key] // Event_ID is the primary key of the table User
+        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
         public int Event_ID { get; set; }
 
         [Required]
-        public DateTime Start_Time { get; set; }
+        public DateTime Date_Hour { get; set; }
 
         [Required]
         [ForeignKey("User")]
         public string Owner_Username { get; set; }
 
-        [Required]
-        public DateTime Date { get; set; }
-        
         public string Collaborators { get; set; }
 
         [Required]
-        public DateTime Duration { get; set; }
+        public int Duration { get; set; }
 
         public virtual User User { get; set; }
         

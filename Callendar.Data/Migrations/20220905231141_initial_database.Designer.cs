@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Callendar.Data.Migrations
 {
     [DbContext(typeof(CallendarDataContext))]
-    [Migration("20220831154421_Initial_Database")]
-    partial class Initial_Database
+    [Migration("20220905231141_initial_database")]
+    partial class initial_database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,18 +31,15 @@ namespace Callendar.Data.Migrations
                     b.Property<string>("Collaborators")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("Date_Hour")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime>("Duration")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<int>("Duration")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Owner_Username")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("Start_Time")
-                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Event_ID");
 

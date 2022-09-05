@@ -58,6 +58,24 @@ namespace OnlineCallendarApplication
                 Password = "gb123"
             });
 
+            var check_event = context.Event.FirstOrDefault();
+            if (check_event != null) return; // if table User has records, then return
+
+            context.Event.Add(new Event
+            {
+                Date_Hour = DateTime.Now,
+                Owner_Username = "stratoskar",
+                Collaborators = "John Brisimis",
+                Duration = 2
+            });
+
+            context.Event.Add(new Event
+            {
+                Date_Hour = DateTime.Now,
+                Owner_Username = "CharisChrist",
+                Duration = 3
+            });
+
             context.SaveChanges();
         }
     }
