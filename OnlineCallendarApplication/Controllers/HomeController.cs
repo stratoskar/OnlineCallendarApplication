@@ -162,6 +162,12 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
+        // Delete an event that user has
+        public void Delete()
+        {
+
+        }
+
         public IActionResult Register()
         {
             return View();

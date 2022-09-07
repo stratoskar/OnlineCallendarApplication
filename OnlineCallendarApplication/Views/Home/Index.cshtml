@@ -37,8 +37,8 @@
                 @Html.DisplayFor(modelItem => item.Duration)
             </td>
             <td>
-                <a asp-action="Edit event" asp-route-id="@item.Event_ID">Edit</a> |
-                <a asp-action="Delete this event" asp-route-id="@item.Event_ID">Delete</a>
+                <a asp-action="Edit">Edit this event</a> |
+                <a asp-action="Delete" asp-route-id="@item.Event_ID">Delete this event</a>
             </td>
         </tr>
 }
