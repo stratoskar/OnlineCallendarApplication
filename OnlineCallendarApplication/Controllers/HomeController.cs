@@ -15,7 +15,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001;");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User
@@ -30,30 +30,46 @@ namespace OnlineCallendarApplication.Controllers
         // Index controller
         public IActionResult Index()
         {
-            List<Event> display_event = new List<Event>();
-
-            conn.Open();
-            comm.Connection = conn;
-            comm.CommandType = CommandType.Text;
-            comm.CommandText = "SELECT * FROM public.\"Event\"";
-
-            NpgsqlDataReader sdr = comm.ExecuteReader();
-
-            while (sdr.Read())
+            try
             {
-                // show every event of current user
-                if (sdr["Owner_Username"].ToString().Equals(USERNAME))
-                {
-                    var event_list = new Event();
-                    event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
-                    event_list.Collaborators = sdr["Collaborators"].ToString();
-                    event_list.Duration = (int)sdr["Duration"];
-                    display_event.Add(event_list);
-                }
-            }
+                List<Event> display_event = new List<Event>();
 
-            conn.Close();
-            return View(display_event);
+                conn.Open();
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.CommandText = "SELECT * FROM public.\"Event\"";
+
+                NpgsqlDataReader sdr = comm.ExecuteReader();
+
+                while (sdr.Read())
+                {
+                    // show every event of current user
+                    if (sdr["Owner_Username"].ToString().Equals(USERNAME))
+                    {
+                        var event_list = new Event();
+                        event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
+                        event_list.Collaborators = sdr["Collaborators"].ToString();
+                        event_list.Duration = (int)sdr["Duration"];
+                        display_event.Add(event_list);
+                    }
+                }
+
+                conn.Close();
+                return View(display_event);
+            }
+            catch(Exception e)
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = e.ToString();
+                };
+
+                ViewBag.Message = error;
+
+                return View("Error");
+            }
         }
 
         // This method checks if the login credentials that user inserted
@@ -63,30 +79,52 @@ namespace OnlineCallendarApplication.Controllers
             // Take the username and password that user inserted
             string GivenUsername = Request.Form["username"].ToString();
             string GivenPassword = Request.Form["password"].ToString();
-
             conn.Open();
-            comm.Connection = conn;
-            comm.CommandType = CommandType.Text;
-            comm.CommandText = "SELECT * FROM public.\"User\"";
 
-            NpgsqlDataReader sdr = comm.ExecuteReader();
-
-            while (sdr.Read())
+            try
             {
-                if (sdr["Username"].Equals(GivenUsername) && sdr["Password"].Equals(GivenPassword))
-                {
-                    USERNAME = sdr["Username"].ToString(); // save current user
-                    conn.Close();
-                    return RedirectToAction("Index"); // Go to the main page if user's input is valid
-                }
-                else
-                {
-                    continue;
-                }
-            }
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.CommandText = "SELECT * FROM public.\"User\"";
 
-            conn.Close();
-            return View("Error"); // Go to the login page if user's input is not valid  
+                NpgsqlDataReader sdr = comm.ExecuteReader();
+
+                while (sdr.Read())
+                {
+                    if (sdr["Username"].Equals(GivenUsername) && sdr["Password"].Equals(GivenPassword))
+                    {
+                        USERNAME = sdr["Username"].ToString(); // save current user
+                        conn.Close();
+                        return RedirectToAction("Index"); // Go to the main page if user's input is valid
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Invalid Credentials!";
+                };
+
+                ViewBag.Message = error;
+                return View("Error"); // Go to the login page if user's input is not valid
+            }
+            catch(Exception e)
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = e.ToString();
+                };
+
+                ViewBag.Message = error;
+                return View("Error");
+            }
         }
 
         // This method is called in order to add a new user
@@ -113,6 +151,13 @@ namespace OnlineCallendarApplication.Controllers
             catch (Exception e)
             {
                 conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = e.ToString();
+                };
+
+                ViewBag.Message = error;
                 return View("Error");
             }
         }

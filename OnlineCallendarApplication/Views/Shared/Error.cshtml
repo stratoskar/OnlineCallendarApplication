@@ -1,4 +1,5 @@
 ﻿@model ErrorViewModel
+
 @{
     ViewData["Title"] = "Error";
 }
@@ -7,25 +8,31 @@
 
     <html lang="en">
 
-        <center>
+    <center>
 
-            <h1 class="text-danger">Error.</h1>
-            <h2 class="text-danger">An error occurred while processing your request!</h2>
+        <h1 class="text-danger">Error.</h1>
+        <h2 class="text-danger">An error occurred while processing your request!</h2>
 
-            <br />
-            <br />
+        <br />
+        <br />
 
-            <img src="~/images/error.png" />
+        <img src="~/images/error.png" />
 
-            <br />
-            <br /> 
+        @{
+            var data = ViewBag.Message;
+        }
 
-            <p>Don't have an account yet? <a href="https://localhost:44394/Home/Register">register</a></p>
+        <h3>Error Explanation: @data.Explain</h3>
 
-            <br />
-            <br />
+        <br />
+        <br />
 
-        </center>
+        <p>Don't have an account yet? <a href="https://localhost:44394/Home/Register">register</a></p>
+
+        <br />
+        <br />
+
+    </center>
 
     </html>
 
