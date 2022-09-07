@@ -15,7 +15,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=soobadata2");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User
@@ -63,7 +63,7 @@ namespace OnlineCallendarApplication.Controllers
 
                 ErrorViewModel error = new ErrorViewModel();
                 {
-                    error.Explain = e.ToString();
+                    error.Explain = "Problem with the Database!";
                 };
 
                 ViewBag.Message = error;
@@ -119,7 +119,7 @@ namespace OnlineCallendarApplication.Controllers
 
                 ErrorViewModel error = new ErrorViewModel();
                 {
-                    error.Explain = e.ToString();
+                    error.Explain = "Problem with the Database!";
                 };
 
                 ViewBag.Message = error;
@@ -154,7 +154,7 @@ namespace OnlineCallendarApplication.Controllers
 
                 ErrorViewModel error = new ErrorViewModel();
                 {
-                    error.Explain = e.ToString();
+                    error.Explain = "Problem with the Database!";
                 };
 
                 ViewBag.Message = error;

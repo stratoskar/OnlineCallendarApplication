@@ -1,4 +1,4 @@
-﻿@model ErrorViewModel
+﻿@model ErrorViewModel;
 
 @{
     ViewData["Title"] = "Error";
@@ -17,12 +17,11 @@
         <br />
 
         <img src="~/images/error.png" />
-
         @{
-            var data = ViewBag.Message;
+            var error = ViewBag.Message;
         }
 
-        <h3>Error Explanation: @data.Explain</h3>
+        <h3>Error explanation: @error.Explain</h3>
 
         <br />
         <br />
