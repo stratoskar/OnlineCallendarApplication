@@ -15,7 +15,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=soobadata2");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User
@@ -48,7 +48,7 @@ namespace OnlineCallendarApplication.Controllers
                     {
                         var event_list = new Event();
                         event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
-                        event_list.Collaborators = sdr["Collaborators"].ToString();
+                        event_list.Collaborators = (string[])sdr["Collaborators"];
                         event_list.Duration = (int)sdr["Duration"];
                         display_event.Add(event_list);
                     }

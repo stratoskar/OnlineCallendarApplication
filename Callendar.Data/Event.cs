@@ -21,7 +21,7 @@ namespace Callendar.Data
         [ForeignKey("User")]
         public string Owner_Username { get; set; }
 
-        public string Collaborators { get; set; }
+        public string[] Collaborators { get; set; }
 
         [Required]
         public int Duration { get; set; }
