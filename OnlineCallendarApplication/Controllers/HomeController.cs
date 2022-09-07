@@ -79,10 +79,10 @@ namespace OnlineCallendarApplication.Controllers
             // Take the username and password that user inserted
             string GivenUsername = Request.Form["username"].ToString();
             string GivenPassword = Request.Form["password"].ToString();
-            conn.Open();
 
             try
             {
+                conn.Open();
                 comm.Connection = conn;
                 comm.CommandType = CommandType.Text;
                 comm.CommandText = "SELECT * FROM public.\"User\"";
