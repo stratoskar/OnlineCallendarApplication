@@ -47,6 +47,7 @@ namespace OnlineCallendarApplication.Controllers
                     if (sdr["Owner_Username"].ToString().Equals(USERNAME))
                     {
                         var event_list = new Event();
+                        event_list.Event_ID = (int)sdr["Event_ID"];
                         event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
                         event_list.Collaborators = (string[])sdr["Collaborators"];
                         event_list.Duration = (int)sdr["Duration"];
@@ -55,6 +56,8 @@ namespace OnlineCallendarApplication.Controllers
                 }
 
                 conn.Close();
+
+
                 return View(display_event);
             }
             catch(Exception e)
@@ -162,10 +165,36 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
-        // Delete an event that user has
-        public void Delete()
-        {
 
+        public IActionResult Delete(int? id)
+        {
+            try
+            {
+                string query = string.Format("DELETE FROM public.\"Event\" WHERE \"Event_ID\"='{0}'", id);
+
+                conn.Open();
+
+                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.ExecuteNonQuery();
+                conn.Close();
+
+               return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Problem with the Database!";
+                };
+
+                ViewBag.Message = error;
+                return View("Error");
+            }
         }
 
         public IActionResult Register()

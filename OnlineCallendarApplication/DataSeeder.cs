@@ -22,6 +22,33 @@ namespace OnlineCallendarApplication
 
         private static void AddData(CallendarDataContext context)
         {
+            var check_event = context.Event.FirstOrDefault();
+            if (check_event != null) return; // if table Event has records, then return
+
+            context.Event.Add(new Event
+            {
+                Date_Hour = DateTime.Now,
+                Owner_Username = "stratoskar",
+                Collaborators = new string[] { "gbrisimis", "gmissas" },
+                Duration = 2
+            });
+
+            context.Event.Add(new Event
+            {
+                Date_Hour = DateTime.Now,
+                Owner_Username = "CharisChrist",
+                Collaborators = new string[] { "gbrisimis", "gmissas", "stratoskar" },
+                Duration = 3
+            });
+
+            context.Event.Add(new Event
+            {
+                Date_Hour = DateTime.Now,
+                Owner_Username = "CharisChrist",
+                Collaborators = new string[] { "gmissas", "stratoskar" },
+                Duration = 5
+            });
+
             var check = context.User.FirstOrDefault();
             if (check != null) return; // if table User has records, then return
 
@@ -56,25 +83,6 @@ namespace OnlineCallendarApplication
                 Username = "gbrisimis",
                 Fullname = "John Brisimis",
                 Password = "gb123"
-            });
-
-            var check_event = context.Event.FirstOrDefault();
-            if (check_event != null) return; // if table User has records, then return
-
-            context.Event.Add(new Event
-            {
-                Date_Hour = DateTime.Now,
-                Owner_Username = "stratoskar",
-                Collaborators = new string[] { "gbrisimis","gmissas" },
-                Duration = 2
-            });
-
-            context.Event.Add(new Event
-            {
-                Date_Hour = DateTime.Now,
-                Owner_Username = "CharisChrist",
-                Collaborators = new string[] { "gbrisimis", "gmissas", "stratoskar" },
-                Duration = 3
             });
 
             context.SaveChanges();
