@@ -15,7 +15,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User
@@ -198,11 +198,15 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
+        //Calls Event_Update Form
+
         public ActionResult Edit(int Id)
         {
             EVENT_ID = Id;
             return View("Edit");
         }
+
+        //Function of Edit_Event 
 
         public IActionResult Update_Event()
         {
@@ -213,7 +217,7 @@ namespace OnlineCallendarApplication.Controllers
 
             try
             {
-                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", GivenDateHour, GivenCollaborators, GivenDuration, EVENT_ID);
+                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", GivenDateHour, "{" + GivenCollaborators +"}", GivenDuration, EVENT_ID);
                 
                 conn.Open();
 
