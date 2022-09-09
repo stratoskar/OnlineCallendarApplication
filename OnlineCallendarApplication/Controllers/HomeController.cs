@@ -19,6 +19,7 @@ namespace OnlineCallendarApplication.Controllers
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User
+        private static int EVENT_ID; // Current Event
 
         private readonly ILogger<HomeController> _logger;
 
@@ -165,7 +166,7 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
-
+        // Τhis action is called, in order to delete a record (event) that a specific user has
         public IActionResult Delete(int? id)
         {
             try
@@ -182,6 +183,48 @@ namespace OnlineCallendarApplication.Controllers
                 conn.Close();
 
                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Problem with the Database!";
+                };
+
+                ViewBag.Message = error;
+                return View("Error");
+            }
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            EVENT_ID = Id;
+            return View("Edit");
+        }
+
+        public IActionResult Update_Event()
+        {
+            // Take the username and password that user inserted
+            DateTime GivenDateHour = DateTime.Parse(Request.Form["date-hour"].ToString());
+            string GivenCollaborators = Request.Form["collaborators"].ToString();
+            int GivenDuration = Int32.Parse(Request.Form["duration"].ToString());
+
+            try
+            {
+                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", GivenDateHour, GivenCollaborators, GivenDuration, EVENT_ID);
+                
+                conn.Open();
+
+                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.ExecuteNonQuery();
+                conn.Close();
+
+                return RedirectToAction("Index"); // after UPDATE query, user will have access to his DASHBOARD
             }
             catch (Exception e)
             {

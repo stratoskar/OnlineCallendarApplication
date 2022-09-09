@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Callendar.Data.Migrations
 {
-    public partial class initialDatabase : Migration
+    public partial class initial_db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
