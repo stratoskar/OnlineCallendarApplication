@@ -9,7 +9,7 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form action="https://localhost:44394/Home/Update_Event" onsubmit="return check_double_collaborstors()" method="post">
+            <form action="https://localhost:44394/Home/Update_Event" onsubmit="return check_collaborators()" method="post">
                 <div id="error_message"></div>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Event_ID" />
@@ -49,6 +49,7 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </hmtl>
+
 <script>
 
     // function that runs before a specific event is goint to be deleted
@@ -64,8 +65,8 @@
     }
 
 
-    // this function is used to check if collaborators are the same
-    function check_double_collaborstors() {
+    // this function is used to check if collaborators are the same and if these fields are setted to null
+    function check_collaborators() {
 
         // get the values of inputs of Collaborator1, Collaborator2 and Collaborator3 that user gave in the form
         var col1 = document.getElementById("col1").value;
@@ -78,13 +79,22 @@
         // use a new variable for storing the errors during validation
         error_message.style.padding = "10px";
 
-        if (col1 == col2 || col1 == col3 || col2 == col3) {
+        if (col1 == col2 || col1 == col3 || col2 == col3)
+        {
 
             text = "There are doubles in collaborator fields! Please check it out.";
             error_message.innerHTML = text;
             return false;
         }
-        else {
+        else if (col1 = "null" || col2 == "null" || col3 == "null")
+        {
+
+            text = "Collaborators fields can not be setted to null!";
+            error_message.innerHTML = text;
+            return false;
+        }
+        else
+        {
             return true;
         }
     }

@@ -288,6 +288,22 @@ namespace OnlineCallendarApplication.Controllers
                 return View("Error");
             }
 
+            // Check if collaborators fields are empty or not
+            // If yes, then set them as null because there is already
+            // a user in DataBase with Username="null" (dummy user)
+            if(GivenCollaborator1.Equals(""))
+            {
+                GivenCollaborator1 = "null";
+            }
+            if (GivenCollaborator2.Equals(""))
+            {
+                GivenCollaborator2 = "null";
+            }
+            if (GivenCollaborator3.Equals(""))
+            {
+                GivenCollaborator3 = "null";
+            }
+
             try
             {
                 // Update Query

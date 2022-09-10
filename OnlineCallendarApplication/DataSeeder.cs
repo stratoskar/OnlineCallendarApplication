@@ -89,6 +89,21 @@ namespace OnlineCallendarApplication
                 Password = "gb123"
             });
 
+            context.User.Add(new User
+            {
+                Username = "stratoskar",
+                Fullname = "Efstratios Karkanis",
+                Password = "sk123"
+            });
+
+            // Add dummy user
+            context.User.Add(new User
+            {
+                Username = "null",
+                Fullname = "system_user",
+                Password = "123"
+            });
+
             context.SaveChanges();
         }
     }
