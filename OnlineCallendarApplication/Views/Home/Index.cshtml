@@ -32,13 +32,7 @@
                 @Html.DisplayNameFor(model => model.Date_Hour)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Collaborator1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Collaborator2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Collaborator3)
+                @Html.DisplayNameFor(model => model.Collaborators)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Duration)
@@ -57,20 +51,14 @@
                 @Html.DisplayFor(modelItem => item.Date_Hour)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Collaborator1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Collaborator2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Collaborator3)
+                @Html.DisplayFor(modelItem => item.Collaborators)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Duration)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit</a> |
-                <a asp-action="Delete" onclick="return delete_message()" asp-route-id="@item.Event_ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit Event</a> |
+                <a asp-action="Delete" onclick="return delete_message()" asp-route-id="@item.Event_ID">Delete Event</a>
             </td>
         </tr>
         }

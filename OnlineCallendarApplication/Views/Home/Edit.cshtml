@@ -9,7 +9,7 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form action="https://localhost:44394/Home/Update_Event" onsubmit="return check_collaborators()" method="post">
+            <form action="https://localhost:44394/Home/Update_Event"  method="post">
                 <div id="error_message"></div>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Event_ID" />
@@ -19,23 +19,13 @@
                     <span asp-validation-for="Date_Hour" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Collaborator1" class="control-label"></label>
-                    <input asp-for="Collaborator1" class="form-control" id="col1" name="collaborator1" />
-                    <span asp-validation-for="Collaborator1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Collaborator2" class="control-label"></label>
-                    <input asp-for="Collaborator2" class="form-control" id="col2" name="collaborator2" />
-                    <span asp-validation-for="Collaborator2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Collaborator3" class="control-label"></label>
-                    <input asp-for="Collaborator3" class="form-control" id="col3" name="collaborator3" />
-                    <span asp-validation-for="Collaborator3" class="text-danger"></span>
+                    <label asp-for="Collaborators" class="control-label"></label>
+                    <input asp-for="Collaborators" class="form-control" id="collaborators" name="collaborators" />
+                    <span asp-validation-for="Collaborators" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Duration" class="control-label"></label>
-                    <input asp-for="Duration" name="duration" min="1" max="10" class="form-control" />
+                    <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
                     <span asp-validation-for="Duration" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -52,7 +42,7 @@
 
 <script>
 
-    // function that runs before a specific event is goint to be deleted
+    // function that runs before a specific event is going to be updated
     function edit_message() {
         var r = confirm("Are you sure you want to update this event?");
 
@@ -61,41 +51,6 @@
         }
         else {
             return false; // event is not being updated
-        }
-    }
-
-
-    // this function is used to check if collaborators are the same and if these fields are setted to null
-    function check_collaborators() {
-
-        // get the values of inputs of Collaborator1, Collaborator2 and Collaborator3 that user gave in the form
-        var col1 = document.getElementById("col1").value;
-        var col2 = document.getElementById("col2").value;
-        var col3 = document.getElementById("col3").value;
-
-
-        var text; // set a new variable
-
-        // use a new variable for storing the errors during validation
-        error_message.style.padding = "10px";
-
-        if (col1 == col2 || col1 == col3 || col2 == col3)
-        {
-
-            text = "There are doubles in collaborator fields! Please check it out.";
-            error_message.innerHTML = text;
-            return false;
-        }
-        else if (col1 == "null" || col2 == "null" || col3 == "null")
-        {
-
-            text = "Collaborators fields can not be setted to null!";
-            error_message.innerHTML = text;
-            return false;
-        }
-        else
-        {
-            return true;
         }
     }
 

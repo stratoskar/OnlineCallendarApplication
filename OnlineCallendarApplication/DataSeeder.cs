@@ -6,7 +6,7 @@ using Callendar.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-// Aυτό το αρχείο χρησιμοποιείται για να εισάγει δεδομένα στην βάση, σε περίπτωση που η τελευταία δεν περιέχει κανέναν χρήστη!
+// Add data to Database
 
 namespace OnlineCallendarApplication
 {
@@ -23,14 +23,13 @@ namespace OnlineCallendarApplication
         private static void AddData(CallendarDataContext context)
         {
             var check_event = context.Event.FirstOrDefault();
-            if (check_event != null) return; // if table Event has records, then return
+            if (check_event != null) return; // if table Event has already records, then return
 
             context.Event.Add(new Event
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "stratoskar",
-                Collaborator1 = "gbrisimis", 
-                Collaborator2 = "gmissas",
+                Collaborators = new string[] {"stratis","sifis","andreas"},
                 Duration = 2
             });
 
@@ -38,9 +37,7 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "CharisChrist",
-                Collaborator1 = "gbrisimis", 
-                Collaborator2 = "gmissas", 
-                Collaborator3 = "stratoskar",
+                Collaborators = new string[] { "JOHN123", "GigilHajid", "Katerina" },
                 Duration = 3
             });
 
@@ -48,13 +45,12 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "CharisChrist",
-                Collaborator1 = "gmissas",
-                Collaborator2 = "stratoskar",
+                Collaborators = new string[] {"JOHN","CharisChrist","Panagiotis"},
                 Duration = 5
             });
 
             var check = context.User.FirstOrDefault();
-            if (check != null) return; // if table User has records, then return
+            if (check != null) return; // if table User has already records, then return
 
             // if table User does not have records, then add 4 new Users to the database
             // add first user
@@ -87,14 +83,6 @@ namespace OnlineCallendarApplication
                 Username = "gbrisimis",
                 Fullname = "John Brisimis",
                 Password = "gb123"
-            });
-
-            // Add dummy user
-            context.User.Add(new User
-            {
-                Username = "null",
-                Fullname = "system_user",
-                Password = "123"
             });
 
             context.SaveChanges();

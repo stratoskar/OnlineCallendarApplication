@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Callendar.Data.Migrations
 {
     [DbContext(typeof(CallendarDataContext))]
-    [Migration("20220910115848_init")]
+    [Migration("20220910150406_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,14 +28,8 @@ namespace Callendar.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-                    b.Property<string>("Collaborator1")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Collaborator2")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Collaborator3")
-                        .HasColumnType("text");
+                    b.Property<string[]>("Collaborators")
+                        .HasColumnType("text[]");
 
                     b.Property<DateTime>("Date_Hour")
                         .HasColumnType("timestamp without time zone");
@@ -48,12 +42,6 @@ namespace Callendar.Data.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Event_ID");
-
-                    b.HasIndex("Collaborator1");
-
-                    b.HasIndex("Collaborator2");
-
-                    b.HasIndex("Collaborator3");
 
                     b.HasIndex("Owner_Username");
 
@@ -80,18 +68,6 @@ namespace Callendar.Data.Migrations
 
             modelBuilder.Entity("Callendar.Data.Event", b =>
                 {
-                    b.HasOne("Callendar.Data.User", "User1")
-                        .WithMany()
-                        .HasForeignKey("Collaborator1");
-
-                    b.HasOne("Callendar.Data.User", "User2")
-                        .WithMany()
-                        .HasForeignKey("Collaborator2");
-
-                    b.HasOne("Callendar.Data.User", "User3")
-                        .WithMany()
-                        .HasForeignKey("Collaborator3");
-
                     b.HasOne("Callendar.Data.User", "User")
                         .WithMany()
                         .HasForeignKey("Owner_Username")
@@ -99,12 +75,6 @@ namespace Callendar.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-
-                    b.Navigation("User1");
-
-                    b.Navigation("User2");
-
-                    b.Navigation("User3");
                 });
 #pragma warning restore 612, 618
         }

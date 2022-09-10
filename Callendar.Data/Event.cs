@@ -21,29 +21,12 @@ namespace Callendar.Data
         [ForeignKey("User")]
         public string Owner_Username { get; set; }
 
-        // Each event-meeting can hold up to 3 collaborators
-        // Collaborators should be active users of the application, thus need to be
-        // enrolled users in the User's table (Foreign Key)
-        [ForeignKey("User1")]
-        public string Collaborator1 { get; set; }
-
-        [ForeignKey("User2")]
-        public string Collaborator2 { get; set; }
-
-        [ForeignKey("User3")]
-        public string Collaborator3 { get; set; }
-
+        // collaborators can be anyone (not only users of this application)
+        public string[] Collaborators { get; set; } 
         [Required]
         public int Duration { get; set; }
 
-        // These are the Foreign keys
+        // This is the Foreign key
         public virtual User User { get; set; }
-
-        public virtual User User1 { get; set; }
-
-        public virtual User User2 { get; set; }
-
-        public virtual User User3 { get; set; }
-
     }
 }

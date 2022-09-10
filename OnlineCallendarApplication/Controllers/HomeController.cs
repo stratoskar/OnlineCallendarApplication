@@ -60,9 +60,7 @@ namespace OnlineCallendarApplication.Controllers
                         var event_list = new Event();
                         event_list.Event_ID = (int)sdr["Event_ID"];
                         event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
-                        event_list.Collaborator1 = sdr["Collaborator1"].ToString();
-                        event_list.Collaborator2 = sdr["Collaborator2"].ToString();
-                        event_list.Collaborator3 = sdr["Collaborator3"].ToString();
+                        event_list.Collaborators = (string[])sdr["Collaborators"];
                         event_list.Duration = (int)sdr["Duration"];
                         display_event.Add(event_list);
                     }
@@ -167,9 +165,7 @@ namespace OnlineCallendarApplication.Controllers
                 {
                     event_list.Event_ID = (int)sdr["Event_ID"];
                     event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
-                    event_list.Collaborator1 = sdr["Collaborator1"].ToString();
-                    event_list.Collaborator2 = sdr["Collaborator2"].ToString();
-                    event_list.Collaborator3 = sdr["Collaborator3"].ToString();
+                    event_list.Collaborators = (string[])sdr["Collaborators"];
                     event_list.Duration = (int)sdr["Duration"];
                 }
 
@@ -230,6 +226,51 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
+        // Controller of Create view
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // This function is executed, when a new event is going to be appended to the database
+        public IActionResult Add_Event()
+        {
+            // Take information of the Event that needs to be inserted
+            DateTime GivenDateHour = DateTime.Parse(Request.Form["date-hour"]);
+            string[] GivenCollaborators = (string[])Request.Form["collaborators"];
+            int GivenDuration = Int32.Parse(Request.Form["duration"].ToString());
+
+            try
+            {
+                // Insert Query
+                string query = string.Format("INSERT INTO public.\"Event\" VALUES ('{0}','{1}','{2}','{3}')", String.Format("{0:d/M/yyyy HH:mm:ss}",GivenDateHour), USERNAME, GivenCollaborators,GivenDuration);
+
+                conn.Open();
+
+                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.ExecuteNonQuery();
+                conn.Close();
+
+                return RedirectToAction("Index"); // after INSERT query, user will have access to his DASHBOARD
+            }
+            catch (Exception e)
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Problem with the Database!";
+                    error.Explain = e.ToString();
+                };
+
+                ViewBag.Message = error;
+                return View("Error");
+            }
+        }
+
         // Τhis action is called, in order to delete a record (event) that a specific user has
         public IActionResult Delete(int? id)
         {
@@ -270,45 +311,14 @@ namespace OnlineCallendarApplication.Controllers
         {
             // Take informtion of Current Event that needs to be updated
             DateTime GivenDateHour = DateTime.Parse(Request.Form["date-hour"]);
-            string GivenCollaborator1 = Request.Form["collaborator1"].ToString();
-            string GivenCollaborator2 = Request.Form["collaborator2"].ToString();
-            string GivenCollaborator3 = Request.Form["collaborator3"].ToString();
+            string[] GivenCollaborators = (string[])Request.Form["collaborators"];
             int GivenDuration = Int32.Parse(Request.Form["duration"].ToString());
-
-            // Check if current user is collaborator to his/her meeting
-            if (GivenCollaborator1.Equals(USERNAME) || GivenCollaborator2.Equals(USERNAME) || GivenCollaborator3.Equals(USERNAME))
-            {
-                // if condition is True, then show an error message to user and return
-                ErrorViewModel error = new ErrorViewModel();
-                {
-                    error.Explain = "Current user can not be a collaborator to his/her meeting!";
-                };
-
-                ViewBag.Message = error;
-                return View("Error");
-            }
-
-            // Check if collaborators fields are empty or not
-            // If yes, then set them as null because there is already
-            // a user in DataBase with Username="null" (dummy user)
-            if(GivenCollaborator1.Equals(""))
-            {
-                GivenCollaborator1 = "null";
-            }
-            if (GivenCollaborator2.Equals(""))
-            {
-                GivenCollaborator2 = "null";
-            }
-            if (GivenCollaborator3.Equals(""))
-            {
-                GivenCollaborator3 = "null";
-            }
 
             try
             {
                 // Update Query
-                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborator1\" = '{1}', \"Duration\" = '{2}', \"Collaborator2\"='{3}', \"Collaborator3\"='{4}' WHERE \"Event_ID\"='{5}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour), GivenCollaborator1, GivenDuration, GivenCollaborator2,GivenCollaborator3, EVENT_ID);
-                
+                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour), GivenCollaborators, GivenDuration, EVENT_ID);
+               
                 conn.Open();
 
                 NpgsqlCommand comm = new NpgsqlCommand(query, conn);
