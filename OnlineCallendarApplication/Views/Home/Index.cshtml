@@ -4,19 +4,24 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>Your Events</h1>
+<br />
+
+<h1>Your Current Events</h1>
 
 <br />
+
 <center>
-    <h5>
-        Here you can see information of all the events that you have created!
-        You can edit, delete or add a new event if you want to!
-    </h5>
+    <p>
+        Here you can see information of all the events that you have created! You can edit, delete or add a new event if you want to!
+    </p>
 </center>
+
 <br />
+
 <p>
     <a asp-action="Create">Create new event</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -27,7 +32,13 @@
                 @Html.DisplayNameFor(model => model.Date_Hour)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Collaborators)
+                @Html.DisplayNameFor(model => model.Collaborator1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Collaborator2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Collaborator3)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Duration)
@@ -38,40 +49,47 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <th>
-                    @Html.DisplayFor(modelItem => item.Event_ID)
-                </th>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date_Hour)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Collaborators)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Duration)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit this event</a> |
-                    <a asp-action="Delete" onclick="return delete_message()" asp-route-id="@item.Event_ID">Delete this event</a>
-                </td>
-            </tr>
+        <tr>
+            <th>
+                @Html.DisplayFor(modelItem => item.Event_ID)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Hour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Collaborator1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Collaborator2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Collaborator3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit</a> |
+                <a asp-action="Delete" onclick="return delete_message()" asp-route-id="@item.Event_ID">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
-<br />
 
+<br />
 
 <script>
 
+    // function that runs before a specific event is goint to be deleted
     function delete_message() {
         var r = confirm("Are you sure you want to delete this event?");
 
         if (r == true) {
-            return true;
+            return true; // event is going to be deleted
         }
         else {
-            return false;
+            return false; // event is not being deleted
         }
     }
 

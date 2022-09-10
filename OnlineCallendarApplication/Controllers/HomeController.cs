@@ -14,11 +14,11 @@ namespace OnlineCallendarApplication.Controllers
 {
     public class HomeController : Controller
     {
-        // Create connection with PostgreSQL
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001");
+        // Create connection with PostgreSQL database
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
         NpgsqlCommand comm = new NpgsqlCommand();
 
-        private static string USERNAME; // Current User
+        private static string USERNAME; // Current User that uses the session
         private static int EVENT_ID; // Current Event
 
         private readonly ILogger<HomeController> _logger;
@@ -28,7 +28,17 @@ namespace OnlineCallendarApplication.Controllers
             _logger = logger;
         }
 
-        // Index controller
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // Index controller (is executed when Index view is loading)
         public IActionResult Index()
         {
             try
@@ -38,11 +48,11 @@ namespace OnlineCallendarApplication.Controllers
                 conn.Open();
                 comm.Connection = conn;
                 comm.CommandType = CommandType.Text;
-                comm.CommandText = "SELECT * FROM public.\"Event\"";
+                comm.CommandText = "SELECT * FROM public.\"Event\""; // select query
 
                 NpgsqlDataReader sdr = comm.ExecuteReader();
 
-                while (sdr.Read())
+                while (sdr.Read()) // read information from "Event" table
                 {
                     // show every event of current user
                     if (sdr["Owner_Username"].ToString().Equals(USERNAME))
@@ -50,7 +60,9 @@ namespace OnlineCallendarApplication.Controllers
                         var event_list = new Event();
                         event_list.Event_ID = (int)sdr["Event_ID"];
                         event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
-                        event_list.Collaborators = (string[])sdr["Collaborators"];
+                        event_list.Collaborator1 = sdr["Collaborator1"].ToString();
+                        event_list.Collaborator2 = sdr["Collaborator2"].ToString();
+                        event_list.Collaborator3 = sdr["Collaborator3"].ToString();
                         event_list.Duration = (int)sdr["Duration"];
                         display_event.Add(event_list);
                     }
@@ -59,9 +71,9 @@ namespace OnlineCallendarApplication.Controllers
                 conn.Close();
 
 
-                return View(display_event);
+                return View(display_event); // show every event of the Loged-In user
             }
-            catch(Exception e)
+            catch(Exception e) // Error with the database occured
             {
                 conn.Close();
 
@@ -70,14 +82,14 @@ namespace OnlineCallendarApplication.Controllers
                     error.Explain = "Problem with the Database!";
                 };
 
-                ViewBag.Message = error;
+                ViewBag.Message = error; // show error to user
 
                 return View("Error");
             }
         }
 
         // This method checks if the login credentials that user inserted
-        // are valid (user exists in database)
+        // are valid (if valid then user exists in database)
         public IActionResult LoginValidation()
         {
             // Take the username and password that user inserted
@@ -89,7 +101,7 @@ namespace OnlineCallendarApplication.Controllers
                 conn.Open();
                 comm.Connection = conn;
                 comm.CommandType = CommandType.Text;
-                comm.CommandText = "SELECT * FROM public.\"User\"";
+                comm.CommandText = "SELECT * FROM public.\"User\""; // execute SELECT query
 
                 NpgsqlDataReader sdr = comm.ExecuteReader();
 
@@ -109,15 +121,65 @@ namespace OnlineCallendarApplication.Controllers
 
                 conn.Close();
 
+                // If user not in database, then show an error to user
                 ErrorViewModel error = new ErrorViewModel();
                 {
                     error.Explain = "Invalid Credentials!";
                 };
 
                 ViewBag.Message = error;
-                return View("Error"); // Go to the login page if user's input is not valid
+                return View("Error"); // show error to user
             }
-            catch(Exception e)
+            catch(Exception e) // problem with connection occured
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Problem with the Database!"; // show error to user
+                };
+
+                ViewBag.Message = error;
+                return View("Error");
+            }
+        }
+
+        // This method is executed when Edit view is loading
+        public IActionResult Edit(int Id)
+        {
+            try
+            {
+                // find the event that needs to be Edited from database
+                string query = string.Format("SELECT * FROM public.\"Event\" WHERE \"Event_ID\"='{0}'", Id);
+
+                conn.Open();
+
+                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.ExecuteNonQuery();
+
+                NpgsqlDataReader sdr = comm.ExecuteReader();
+                var event_list = new Event();
+
+                while (sdr.Read())
+                {
+                    event_list.Event_ID = (int)sdr["Event_ID"];
+                    event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
+                    event_list.Collaborator1 = sdr["Collaborator1"].ToString();
+                    event_list.Collaborator2 = sdr["Collaborator2"].ToString();
+                    event_list.Collaborator3 = sdr["Collaborator3"].ToString();
+                    event_list.Duration = (int)sdr["Duration"];
+                }
+
+                conn.Close();
+
+                EVENT_ID = Id; // save current event
+
+                return View(event_list);
+            }
+            catch (Exception e) // problem with DB connection
             {
                 conn.Close();
 
@@ -127,6 +189,7 @@ namespace OnlineCallendarApplication.Controllers
                 };
 
                 ViewBag.Message = error;
+
                 return View("Error");
             }
         }
@@ -137,6 +200,7 @@ namespace OnlineCallendarApplication.Controllers
         {
             try
             {
+                // Execute INSERT query of neww user to database
                 string query = string.Format("Insert into public.\"User\" values ('{0}','{1}','{2}')", username, fullname, password);
 
                 conn.Open();
@@ -152,7 +216,7 @@ namespace OnlineCallendarApplication.Controllers
 
                 return RedirectToAction("Index"); // after insert query, user will have access to his main page
             }
-            catch (Exception e)
+            catch (Exception e) // db connection exception
             {
                 conn.Close();
 
@@ -171,6 +235,7 @@ namespace OnlineCallendarApplication.Controllers
         {
             try
             {
+                // Execute DELETE query
                 string query = string.Format("DELETE FROM public.\"Event\" WHERE \"Event_ID\"='{0}'", id);
 
                 conn.Open();
@@ -184,7 +249,7 @@ namespace OnlineCallendarApplication.Controllers
 
                return RedirectToAction("Index");
             }
-            catch (Exception e)
+            catch (Exception e) // DB connection exception
             {
                 conn.Close();
 
@@ -198,26 +263,35 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
-        //Calls Event_Update Form
-
-        public ActionResult Edit(int Id)
-        {
-            EVENT_ID = Id;
-            return View("Edit");
-        }
-
-        //Function of Edit_Event 
-
+       
+        // Update Event method
+        // This method is executed as user clicks SUBMIT button in Edit form (this form is located in Edit.cshtml view)
         public IActionResult Update_Event()
         {
-            // Take the username and password that user inserted
-            DateTime GivenDateHour = DateTime.Parse(Request.Form["date-hour"].ToString());
-            string GivenCollaborators = Request.Form["collaborators"].ToString();
+            // Take informtion of Current Event that needs to be updated
+            DateTime GivenDateHour = DateTime.Parse(Request.Form["date-hour"]);
+            string GivenCollaborator1 = Request.Form["collaborator1"].ToString();
+            string GivenCollaborator2 = Request.Form["collaborator2"].ToString();
+            string GivenCollaborator3 = Request.Form["collaborator3"].ToString();
             int GivenDuration = Int32.Parse(Request.Form["duration"].ToString());
+
+            // Check if current user is collaborator to his/her meeting
+            if (GivenCollaborator1.Equals(USERNAME) || GivenCollaborator2.Equals(USERNAME) || GivenCollaborator3.Equals(USERNAME))
+            {
+                // if condition is True, then show an error message to user and return
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Current user can not be a collaborator to his/her meeting!";
+                };
+
+                ViewBag.Message = error;
+                return View("Error");
+            }
 
             try
             {
-                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", GivenDateHour, "{" + GivenCollaborators +"}", GivenDuration, EVENT_ID);
+                // Update Query
+                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborator1\" = '{1}', \"Duration\" = '{2}', \"Collaborator2\"='{3}', \"Collaborator3\"='{4}' WHERE \"Event_ID\"='{5}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour), GivenCollaborator1, GivenDuration, GivenCollaborator2,GivenCollaborator3, EVENT_ID);
                 
                 conn.Open();
 
@@ -237,22 +311,12 @@ namespace OnlineCallendarApplication.Controllers
                 ErrorViewModel error = new ErrorViewModel();
                 {
                     error.Explain = "Problem with the Database!";
+                    error.Explain = e.ToString();
                 };
 
                 ViewBag.Message = error;
                 return View("Error");
             }
         }
-
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        public IActionResult Login()
-        {
-            return View();
-        }
-
     }
 }

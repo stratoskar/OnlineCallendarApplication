@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Callendar.Data.Migrations
 {
-    public partial class Initialdatabase : Migration
+    public partial class initial_database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,12 +29,32 @@ namespace Callendar.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Date_Hour = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Owner_Username = table.Column<string>(type: "text", nullable: false),
-                    Collaborators = table.Column<string[]>(type: "text[]", nullable: true),
+                    Collaborator1 = table.Column<string>(type: "text", nullable: true),
+                    Collaborator2 = table.Column<string>(type: "text", nullable: true),
+                    Collaborator3 = table.Column<string>(type: "text", nullable: true),
                     Duration = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Event", x => x.Event_ID);
+                    table.ForeignKey(
+                        name: "FK_Event_User_Collaborator1",
+                        column: x => x.Collaborator1,
+                        principalTable: "User",
+                        principalColumn: "Username",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Event_User_Collaborator2",
+                        column: x => x.Collaborator2,
+                        principalTable: "User",
+                        principalColumn: "Username",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Event_User_Collaborator3",
+                        column: x => x.Collaborator3,
+                        principalTable: "User",
+                        principalColumn: "Username",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Event_User_Owner_Username",
                         column: x => x.Owner_Username,
@@ -42,6 +62,21 @@ namespace Callendar.Data.Migrations
                         principalColumn: "Username",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Event_Collaborator1",
+                table: "Event",
+                column: "Collaborator1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Event_Collaborator2",
+                table: "Event",
+                column: "Collaborator2");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Event_Collaborator3",
+                table: "Event",
+                column: "Collaborator3");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Event_Owner_Username",
