@@ -15,7 +15,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL database
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001;");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User that uses the session
@@ -237,13 +237,13 @@ namespace OnlineCallendarApplication.Controllers
         {
             // Take information of the Event that needs to be inserted
             DateTime GivenDateHour = DateTime.Parse(Request.Form["date-hour"]);
-            string[] GivenCollaborators = (string[])Request.Form["collaborators"];
+            string GivenCollaborators = Request.Form["collaborators"];
             int GivenDuration = Int32.Parse(Request.Form["duration"].ToString());
 
             try
             {
                 // Insert Query
-                string query = string.Format("INSERT INTO public.\"Event\" VALUES ('{0}','{1}','{2}','{3}')", String.Format("{0:d/M/yyyy HH:mm:ss}",GivenDateHour), USERNAME, GivenCollaborators,GivenDuration);
+                string query = string.Format("INSERT INTO public.\"Event\" VALUES (DEFAULT,'{0}','{1}','{2}','{3}')", String.Format("{0:d/M/yyyy HH:mm:ss}",GivenDateHour), USERNAME,"{"+GivenCollaborators+"}",GivenDuration);
 
                 conn.Open();
 
@@ -311,13 +311,13 @@ namespace OnlineCallendarApplication.Controllers
         {
             // Take informtion of Current Event that needs to be updated
             DateTime GivenDateHour = DateTime.Parse(Request.Form["date-hour"]);
-            string[] GivenCollaborators = (string[])Request.Form["collaborators"];
+            string GivenCollaborators = Request.Form["collaborators"];
             int GivenDuration = Int32.Parse(Request.Form["duration"].ToString());
 
             try
             {
                 // Update Query
-                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour), GivenCollaborators, GivenDuration, EVENT_ID);
+                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour), "{"+GivenCollaborators+"}", GivenDuration, EVENT_ID);
                
                 conn.Open();
 
