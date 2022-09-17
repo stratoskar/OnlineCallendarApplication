@@ -33,8 +33,23 @@
 </div>
 
 <div>
-    <a asp-action="Index">Go back to your events</a>
+    <a onclick="return show_message()" asp-action="Index">Go back to your events</a>
 </div>
+
+<script>
+    // this function is executed as the user clicks on the hyperlink "Go back to your events"
+    function show_message() {
+
+        var r = confirm("Are you sure you want to leave this page?");
+
+        if (r == true) {
+            return true; // event is not going to be created
+        }
+        else {
+            return false; // event is going to be created (maybe)
+        }
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
