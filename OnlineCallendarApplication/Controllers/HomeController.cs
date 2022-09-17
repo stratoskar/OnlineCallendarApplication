@@ -15,7 +15,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL database
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001;");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User that uses the session
@@ -60,7 +60,7 @@ namespace OnlineCallendarApplication.Controllers
                         var event_list = new Event();
                         event_list.Event_ID = (int)sdr["Event_ID"];
                         event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
-                        event_list.Collaborators = (string[])sdr["Collaborators"];
+                        event_list.Collaborators = (string)sdr["Collaborators"];
                         event_list.Duration = (int)sdr["Duration"];
                         display_event.Add(event_list);
                     }
@@ -165,7 +165,7 @@ namespace OnlineCallendarApplication.Controllers
                 {
                     event_list.Event_ID = (int)sdr["Event_ID"];
                     event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
-                    event_list.Collaborators = (string[])sdr["Collaborators"];
+                    event_list.Collaborators = (string)sdr["Collaborators"];
                     event_list.Duration = (int)sdr["Duration"];
                 }
 
@@ -243,7 +243,7 @@ namespace OnlineCallendarApplication.Controllers
             try
             {
                 // Insert Query
-                string query = string.Format("INSERT INTO public.\"Event\" VALUES (DEFAULT,'{0}','{1}','{2}','{3}')", String.Format("{0:d/M/yyyy HH:mm:ss}",GivenDateHour), USERNAME,"{"+GivenCollaborators+"}",GivenDuration);
+                string query = string.Format("INSERT INTO public.\"Event\" VALUES (DEFAULT,'{0}','{1}','{2}','{3}')", String.Format("{0:d/M/yyyy HH:mm:ss}",GivenDateHour), USERNAME,GivenCollaborators,GivenDuration);
 
                 conn.Open();
 
@@ -317,7 +317,7 @@ namespace OnlineCallendarApplication.Controllers
             try
             {
                 // Update Query
-                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour), "{"+GivenCollaborators+"}", GivenDuration, EVENT_ID);
+                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour),GivenCollaborators, GivenDuration, EVENT_ID);
                
                 conn.Open();
 

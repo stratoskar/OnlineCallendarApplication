@@ -22,7 +22,8 @@ namespace Callendar.Data
         public string Owner_Username { get; set; }
 
         // collaborators can be anyone (not only users of this application)
-        public string[] Collaborators { get; set; } 
+        public string Collaborators { get; set; }
+
         [Required]
         public int Duration { get; set; }
 

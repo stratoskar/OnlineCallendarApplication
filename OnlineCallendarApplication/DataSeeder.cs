@@ -29,7 +29,7 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "stratoskar",
-                Collaborators = new string[] {"stratis","sifis","andreas"},
+                Collaborators = "stratis,sifis,andreas",
                 Duration = 2
             });
 
@@ -37,7 +37,7 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "CharisChrist",
-                Collaborators = new string[] { "JOHN123", "GigilHajid", "Katerina" },
+                Collaborators = "JOHN123,GigilHajid,Katerina",
                 Duration = 3
             });
 
@@ -45,7 +45,7 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "CharisChrist",
-                Collaborators = new string[] {"JOHN","CharisChrist","Panagiotis"},
+                Collaborators = "JOHN,CharisChrist,Panagiotis",
                 Duration = 5
             });
 

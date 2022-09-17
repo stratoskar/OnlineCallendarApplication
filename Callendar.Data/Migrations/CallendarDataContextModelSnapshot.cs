@@ -26,8 +26,8 @@ namespace Callendar.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-                    b.Property<string[]>("Collaborators")
-                        .HasColumnType("text[]");
+                    b.Property<string>("Collaborators")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Date_Hour")
                         .HasColumnType("timestamp without time zone");
