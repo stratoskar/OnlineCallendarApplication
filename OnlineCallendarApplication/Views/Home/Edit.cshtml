@@ -3,42 +3,39 @@
 @{
     ViewData["Title"] = "Edit Event";
 }
-<html lang="en">
-    <h1>Edit this Event</h1>
 
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form action="https://localhost:44394/Home/Update_Event"  method="post">
-                <div id="error_message"></div>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Event_ID" />
-                <div class="form-group">
-                    <label asp-for="Date_Hour" class="control-label"></label>
-                    <input asp-for="Date_Hour" class="form-control" name="date-hour" />
-                    <span asp-validation-for="Date_Hour" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Collaborators" class="control-label"></label>
-                    <input asp-for="Collaborators" class="form-control" id="collaborators" name="collaborators" />
-                    <span asp-validation-for="Collaborators" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Duration" class="control-label"></label>
-                    <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
-                    <span asp-validation-for="Duration" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" onclick="return edit_message()" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
+<h1>Edit this Event</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form action="https://localhost:44394/Home/Update_Event"  method="post">
+            <div id="error_message"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Event_ID" />
+            <div class="form-group">
+                <label asp-for="Date_Hour" class="control-label"></label>
+                <input asp-for="Date_Hour" class="form-control" name="date-hour" />
+                <span asp-validation-for="Date_Hour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Collaborators" class="control-label"></label>
+                <input asp-for="Collaborators" class="form-control" id="collaborators" name="collaborators" />
+                <span asp-validation-for="Collaborators" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" onclick="return edit_message()" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
+</div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-</hmtl>
+<div>
+    <a onclick="return show_message()" asp-action="Index">Go back to your events</a>
+</div>
 
 <script>
 
@@ -54,6 +51,19 @@
         }
     }
 
+    // this function is executed as the user clicks on the hyperlink "Go back to your events"
+    function show_message() {
+
+        var r = confirm("Are you sure you want to leave this page?");
+
+        if (r == true) {
+            return true; // event is not going to be updated
+        }
+        else {
+            return false; // event is going to be updated (maybe)
+        }
+
+    }
 </script>
 
 @section Scripts {
