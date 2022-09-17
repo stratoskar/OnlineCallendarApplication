@@ -4,37 +4,43 @@
     ViewData["Title"] = "Error";
 }
 
-<!DOCTYPE html>
+@{
+    var error = ViewBag.Message;
+}
 
-    <html lang="en">
+<style>
+    /* the whole page has the same font */
+    * {
+        font-family: candara;
+        color: white;
+        font-family: 18px;
+    }
 
-    <center>
+    /* style rules for the body of the page */
+    body {
+        background-color: seagreen;
+    }
+</style>
 
-        <h1 class="text-danger">Error.</h1>
-        <br />
-        <h2 class="text-danger">An error occurred while processing your request!</h2>
+<center>
+    <br />
+    <br />
+    <h3>An error occurred while processing your request!</h3>
+    <br />
+    <img src="~/images/error.png" />
 
-        <br />
-        <br />
+    <h5>Error explanation: @error.Explain</h5>
+    <br />
+    <br />
+    <h4>You will be redirected to a new page in 10 seconds</h4>
+</center>
 
-        <img src="~/images/error.png" />
-        @{
-            var error = ViewBag.Message;
-        }
-
-        <h3>Error explanation: @error.Explain</h3>
-
-        <br />
-        <br />
-
-        <p>Don't have an account yet? <a href="https://localhost:44394/Home/Register">register</a></p>
-
-        <br />
-        <br />
-
-    </center>
-
-    </html>
+<script type="text/javascript">
+    function Redirect() {
+        window.location = "https://localhost:44394/Home/Login";
+    }
+    setTimeout('Redirect()', 10000);
+</script>
 
 
 

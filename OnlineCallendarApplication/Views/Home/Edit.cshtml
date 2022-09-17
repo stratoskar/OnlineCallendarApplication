@@ -4,10 +4,37 @@
     ViewData["Title"] = "Edit Event";
 }
 
-<h1>Edit this Event</h1>
+<style>
+    /* style the hyperlinks in the nav section */
+    a {
+        font-size: 18px;
+        color: orange;
+    }
+
+    /* the whole page has the same font */
+    * {
+        font-family: candara;
+        color: white;
+        font-family:18px;
+    }
+
+    /* style rules for the body of the page */
+    body {
+        background-color: seagreen;
+    }
+
+    a:hover{
+        color:white;
+    }
+</style>
+
+<br />
+<br />
+<h3>Edit this Event</h3>
+<br />
 <div class="row">
     <div class="col-md-4">
-        <form action="https://localhost:44394/Home/Update_Event"  method="post">
+        <form action="https://localhost:44394/Home/Update_Event" method="post">
             <div id="error_message"></div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Event_ID" />
@@ -26,13 +53,14 @@
                 <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" onclick="return edit_message()" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
     <a onclick="return show_message()" asp-action="Index">Go back to your events</a>
 </div>

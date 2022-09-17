@@ -4,68 +4,84 @@
     ViewData["Title"] = "Dashboard";
 }
 
+<style>
+    /* style the hyperlinks in the nav section */
+    a {
+        font-size: 18px;
+        color: orange;
+    }
+
+    /* the whole page has the same font */
+    * {
+        font-family: candara;
+        color: white;
+        font-family: 18px;
+    }
+
+    /* style rules for the body of the page */
+    body {
+        background-color: seagreen;
+    }
+
+    a:hover {
+        color: white;
+    }
+</style>
+
+<br />
 <br />
 
-<h1>Your Current Events</h1>
-
+<h3>Your Current Events...</h3>
+<h5>Here you can see information of all the events that you have created! You can edit, delete or add a new event if you want to!</h5>
 <br />
-
-<center>
+<br />
+<body>
     <p>
-        Here you can see information of all the events that you have created! You can edit, delete or add a new event if you want to!
+        <a asp-action="Create">Create new event</a>
     </p>
-</center>
-
-<br />
-
-<p>
-    <a asp-action="Create">Create new event</a>
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Event_ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_Hour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Collaborators)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Duration)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <th>
-                @Html.DisplayFor(modelItem => item.Event_ID)
-            </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_Hour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Collaborators)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit Event</a> |
-                <a asp-action="Delete" onclick="return delete_message()" asp-route-id="@item.Event_ID">Delete Event</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-
-<br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Event_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Hour)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Collaborators)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Duration)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Event_ID)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Hour)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Collaborators)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Duration)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit Event</a> |
+                        <a asp-action="Delete" onclick="return delete_message()" asp-route-id="@item.Event_ID">Delete Event</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
 
 <script>
 

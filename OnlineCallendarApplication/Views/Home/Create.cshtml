@@ -4,7 +4,34 @@
     ViewData["Title"] = "Create";
 }
 
+<style>
+    /* style the hyperlinks in the nav section */
+    a {
+        font-size: 18px;
+        color: orange;
+    }
+
+    /* the whole page has the same font */
+    * {
+        font-family: candara;
+        color: white;
+        font-family: 18px;
+    }
+
+    /* style rules for the body of the page */
+    body {
+        background-color: seagreen;
+    }
+
+    a:hover {
+        color: white;
+    }
+</style>
+
+<br />
+<br />
 <h3>Add a new event</h3>
+<br />
 <div class="row">
     <div class="col-md-4">
         <form action="https://localhost:44394/Home/Add_Event" method="post">
@@ -25,13 +52,14 @@
                 <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
     <a onclick="return show_message()" asp-action="Index">Go back to your events</a>
 </div>
