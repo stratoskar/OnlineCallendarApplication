@@ -1,11 +1,21 @@
-﻿<!-- This is the Login page. Using this page, users are now able to Login to the application. -->
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
 
+<!-- This is the Log-In page. Using this page, users are now able to Log-in to the application. -->
 <!DOCTYPE html>
+
 <html lang="en">
+
     <head>
+
         <title>Online Callendar: Login</title>
         <meta charset="utf-8">
+        <link rel="stylesheet" href="~/styles.css">
         <style>
+
             /* style rules for the paragraph in this page */
             p
             {
@@ -30,8 +40,7 @@
             }
 
             /* style rules for the body of the page */
-            body 
-            {
+            body {
                 background-color: seagreen;
             }
 
@@ -100,6 +109,12 @@
                 color: #012A6C
             }
 
+            /* style rules for the radio buttons */
+            input[type=radio] {
+                height: 16px;
+                width: 15px;
+            }
+
             /* style rules when hyperlinks are pressed */
             a:visited
             {
@@ -112,24 +127,33 @@
                 font-size:16px;
                 color: #012A6C;
             }
+
         </style>
+
     </head>
+
     <body>
+
         <form action="https://localhost:44394/Home/LoginValidation" method="post" name="login" id="login">
+
             <div class="imgcontainer">
                 <img src="~/images/callendar.png" alt="logo_image" class="avatar">
             </div>
+
             <div class="container">
                 <label><b style="color:#012A6C">Username: *</b></label>
                 <input type="text" placeholder="Enter Username" name="username" required>
+
                 <label><b style="color:#012A6C">Password: *</b></label>
                 <input type="password" placeholder="Enter Password" name="password" required>
             </div>
+
             <div class="container" style="background-color:#f1f1f1">
                 <button type="submit">Login</button>
                 <button type="reset" class="cancelbtn">Reset</button>
                 <span class="psw">Don't have an account yet? <a href="https://localhost:44394/Home/Register">register</a></span>
             </div>
+
         </form>
         <br>
     </body>
