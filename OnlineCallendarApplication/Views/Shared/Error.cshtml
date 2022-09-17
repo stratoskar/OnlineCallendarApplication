@@ -5,41 +5,36 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
-    <style>
-        /* the whole page has the same font */
-        * 
-        {
-            font-family: candara;
-            color: white;
-            font-size: 20px;
-        }
 
-        /* style rules for the body of the page */
-        body 
-        {
-            background-color: steelblue;
-        }
-    </style>
+    <html lang="en">
+
     <center>
+
+        <h1 class="text-danger">Error.</h1>
         <br />
-        <h2>An error occurred while processing your request!</h2>
+        <h2 class="text-danger">An error occurred while processing your request!</h2>
+
+        <br />
+        <br />
+
         <img src="~/images/error.png" />
         @{
             var error = ViewBag.Message;
         }
+
         <h3>Error explanation: @error.Explain</h3>
+
         <br />
-        <h4>You will be redirected to a new page in 10 seconds</h4>
+        <br />
+
+        <p>Don't have an account yet? <a href="https://localhost:44394/Home/Register">register</a></p>
+
+        <br />
+        <br />
+
     </center>
-    <script type="text/javascript">
-        function Redirect()
-        {
-            window.location = "https://localhost:44394/Home/Login";
-        }
-        setTimeout('Redirect()', 10000);
-    </script>
-</html>
+
+    </html>
 
 
 
