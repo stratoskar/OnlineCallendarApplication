@@ -164,9 +164,9 @@
                     // validation check begins
 
                     // check first name
-                    if (!/^[A-Z][a-z]+$/.test(fullname))
+                    if (!/^[A-Z][a-z]*\s[A-Z][a-z]*$/.test(fullname))
                     {
-                        text = "First name includes at least two letters and should begin with a capital letter!";
+                        text = "Your fullname includes your Name and Surname, which are separated with space. (ex. George Papadopoulos)";
                         error_message.innerHTML = text;
                         return false;
                     }
