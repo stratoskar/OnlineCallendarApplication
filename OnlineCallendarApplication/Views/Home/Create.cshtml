@@ -31,7 +31,7 @@
 <br />
 <div class="row">
     <div class="col-md-4">
-        <form action="https://localhost:44394/Home/Add_Event" method="post">
+        <form action="https://localhost:44394/Home/Add_Event" onsubmit="return check_collaborators()" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date_Hour" class="control-label"></label>
@@ -73,6 +73,16 @@
         else {
             return false; // event is going to be created (maybe)
         }
+    }
+
+    // this function checks if collaborators names are separated not from whitespaces
+    function check_collaborators() {
+        // get the value of "collaborators" input field that user gave
+        var colab = document.getElementById("colab").value;
+
+        if (!/^\S*$/.test(colab)) {
+            alert("Collaborators names should be separated by comma!");
+            return false;
     }
 </script>
 
