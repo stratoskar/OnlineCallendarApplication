@@ -39,23 +39,6 @@ input[type=text] {
     border: 1px solid #012A6C;
 }
 
-/* set a style for the buttons */
-button {
-    background-color: mediumseagreen;
-    color: white;
-    align: right;
-    height: 30px;
-    margin: 8px 0;
-    border: 1px solid mediumseagreen;
-    cursor: pointer;
-    width: 20%;
-}
-
-    /* set a hover effect for the button */
-    button:hover {
-        opacity: 0.8;
-    }
-
 /* centre the display image inside the container */
 .imgcontainer {
     text-align: center;
@@ -77,16 +60,6 @@ a:visited {
 a {
     font-size: 16px;
     color: #012A6C;
-}
-
-/* style rules for the menu at the bottom of the page */
-.navbar {
-    font-size: 16px;
-    bottom: 0;
-    text-align: center;
-    background-color: #f1f1f1;
-    width: 100%;
-    height: 20px;
 }
 
 /* style rules for the table that is showed to the user */
@@ -123,21 +96,4 @@ h3 {
     font-size: 18px;
     text-align: center;
     color: #012A6C;
-}
-
-/* style rules for the select section */
-select {
-    width: 25%;
-    height: 30px;
-    margin: 8px 0;
-    display: inline-block;
-    box-sizing: border-box;
-    border: 1px solid #012A6C;
-}
-
-/* style rules for every article section */
-article {
-    border: 3px solid whitesmoke;
-    background-color: white;
-    padding: 16px;
 }
