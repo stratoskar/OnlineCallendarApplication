@@ -1,16 +1,37 @@
 ﻿@model Callendar.Data.Event
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Event";
 }
 
-<h1>Create</h1>
+<style>
+    a {
+        font-size: 18px;
+        color: orange;
+    }
 
-<h4>Event</h4>
-<hr />
+    * {
+        font-family: candara;
+        color: white;
+        font-family: 18px;
+    }
+
+    body {
+        background-color: seagreen;
+    }
+
+    a:hover {
+        color: white;
+    }
+</style>
+
+<br />
+<br />
+<h3>Add a new event</h3>
+<br />
 <div class="row">
     <div class="col-md-4">
-        <form action="https://localhost:44394/Home/Add_Event" method="post">
+        <form action="https://localhost:44394/Home/Add_Event" onsubmit="return check_collaborators()" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date_Hour" class="control-label"></label>
@@ -28,16 +49,42 @@
                 <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a onclick="return show_message()" asp-action="Index">Go back to your events</a>
 </div>
+
+<script>
+    // this function is executed as the user clicks on the hyperlink "Go back to your events"
+    function show_message() {
+
+        var r = confirm("Are you sure you want to leave this page?");
+
+        if (r == true) {
+            return true; // event is not going to be created
+        }
+        else {
+            return false; // event is going to be created (maybe)
+        }
+    }
+
+    // this function checks if collaborators names are separated not from whitespaces
+    function check_collaborators() {
+        // get the value of "collaborators" input field that user gave
+        var colab = document.getElementById("colab").value;
+
+        if (!/^\S*$/.test(colab)) {
+            alert("Collaborators names should be separated by comma!");
+            return false;
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
