@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Callendar.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +29,7 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "stratoskar",
-                Collaborators = "stratis,sifis,andreas",
+                Collaborators = new string[] {"stratis","sifis","andreas"},
                 Duration = 2
             });
 
@@ -35,7 +37,7 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "CharisChrist",
-                Collaborators = "JOHN123,GigilHajid,Katerina",
+                Collaborators = new string[] { "JOHN123", "GigilHajid", "Katerina" },
                 Duration = 3
             });
 
@@ -43,7 +45,7 @@ namespace OnlineCallendarApplication
             {
                 Date_Hour = DateTime.Now,
                 Owner_Username = "CharisChrist",
-                Collaborators = "JOHN,CharisChrist,Panagiotis",
+                Collaborators = new string[] {"JOHN","CharisChrist","Panagiotis"},
                 Duration = 5
             });
 

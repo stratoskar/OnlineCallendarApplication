@@ -1,22 +1,36 @@
-﻿<!-- This is the page where a user can register to the online callendar -->
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!-- This is the page where a user can register to the online callendar -->
 <!-- source for the html and css code: https://www.geeksforgeeks.org/html-responsive-modal-login-form/ -->
 
 <!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Register</title>
-        <style>
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Online Callendar: Register</title>
+    <link rel="stylesheet" href="~/styles.css">
+    <style>
+
+            /* set border and background colour to the form */
             form {
                 border: 3px solid whitesmoke;
                 background-color: white;
             }
 
+            /* the whole page has the same font */
             *
             {
                 font-family:candara;
             }
 
+            /* style rules for the paragraph in this page */
             p
             {
                 color:white;
@@ -25,11 +39,13 @@
                 width: auto;
             }
 
+            /* style rules for the body of the page */
             body
             {
                 background-color: seagreen;
             }
 
+            /* style rules for the inputs boxes in the form */
             input[type=text],
             input[type=password]
             {
@@ -41,8 +57,9 @@
                 border:1px solid mediumseagreen;
             }
 
-            /* set a style for the buttons of the form */
-            button {
+            /* set a style for the buttons */
+            button
+            {
                 background-color: mediumseagreen;
                 color: white;
                 padding: 10px 18px;
@@ -53,11 +70,12 @@
             }
 
             /* set a hover effect for the button */
-            button:hover {
+            button:hover
+            {
                 opacity: 0.8;
             }
 
-            /* set style for the cancel button */
+            /* set extra style for the cancel button */
             .cancelbtn
             {
                 width: auto;
@@ -65,12 +83,14 @@
                 background-color: #f44336;
             }
 
+            /* centre the display image inside the container */
             .imgcontainer
             {
                 text-align: center;
                 margin: 24px 0 12px 0;
             }
 
+            /* set image properties */
             img.avatar
             {
                 width: 16%;
@@ -97,6 +117,7 @@
                 color: #012A6C;
             }
 
+            /* style the hyperlinks in the nav section */
             a
             {
                 font-size:16px;
@@ -118,77 +139,94 @@
                 font-weight: bold;
                 padding: 0px;
             }
-        </style>
-    </head>
-    <body>
-        <form action="https://localhost:44394/Home/RegisterInsertion" method="post" name="signup" onsubmit="return validation()">
-            <div class="imgcontainer">
-                <img src="~/images/callendar.png" alt="logo_image" class="avatar">
-            </div>
-            <center><div id="error_message"></div></center>
-            <div class="container">
-                <label><b style="color:#012A6C">Hello user, create your account:</b></label>
-            </div>
-            <div class="container">
-                <label><b style="color:#012A6C">Full name: *</b></label>
-                <input type="text" id="fullname" placeholder="Enter your fullname" name="fullname" required>
 
-                <label><b style="color:#012A6C">Username: *</b></label>
-                <input type="text" id="username" placeholder="Enter your username" name="username" required>
+    </style>
 
-                <label><b style="color:#012A6C">Password: *</b></label>
-                <input type="password" id="password" placeholder="Enter your password" name="password" required>
-            </div>
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="submit">Register</button>
-                <button type="reset" class="cancelbtn">Reset</button>
-                <span class="psw">Already have an account? <a href="https://localhost:44394/Home/Login">login</a></span>
-            </div>
-        </form>
-        <br>
-        <script>
-                // this function is used for form's validation on client's side
-                function validation()
+</head>
+
+<body>
+    <form action="https://localhost:44394/Home/RegisterInsertion" method="post" name="signup" onsubmit="return validation()">
+
+        <div class="imgcontainer">
+            <img src="~/images/callendar.png" alt="logo_image" class="avatar">
+        </div>
+
+        <center><div id="error_message"></div></center>
+
+        <div class="container">
+            <label><b style="color:#012A6C">Hello user, please create your account:</b></label>
+        </div>
+
+        <div class="container">
+
+            <label><b style="color:#012A6C">Full name: *</b></label>
+            <input type="text" id="fullname" placeholder="Enter your fullname" name="fullname" required>
+
+            <label><b style="color:#012A6C">Username: *</b></label>
+            <input type="text" id="username" placeholder="Enter your username" name="username" required>
+
+            <label><b style="color:#012A6C">Password: *</b></label>
+            <input type="password" id="password" placeholder="Enter your password" name="password" required>
+
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="submit">Register</button>
+            <button type="reset" class="cancelbtn">Reset</button>
+            <span class="psw">Already have an account? <a href="https://localhost:44394/Home/Login">login</a></span>
+        </div>
+
+    </form>
+
+    <br>
+
+    <script>
+
+            // this function is used for form's validation on client's side
+            function validation()
+            {
+                // get the values of inputs that user gave in the form
+                var fullname = document.getElementById("fullname").value;
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                
+
+                var text; // set a new variable
+
+                // use a new variable for storing the errors during validation
+                error_message.style.padding = "10px";
+
+                // validation check begins
+
+                // check first name
+                if (!/^[A-Z][a-z]+$/.test(fullname))
                 {
-                    // get the values of inputs that user gave in the form
-                    var fullname = document.getElementById("fullname").value;
-                    var username = document.getElementById("username").value;
-                    var password = document.getElementById("password").value;
-                
-
-                    var text; // set a new variable
-
-                    // use a new variable for storing the errors during validation
-                    error_message.style.padding = "10px";
-
-                    // validation check begins
-
-                    // check first name
-                    if (!/^[A-Z][a-z]*\s[A-Z][a-z]*$/.test(fullname))
-                    {
-                        text = "Your fullname includes your Name and Surname, which are separated with space. (ex. George Papadopoulos)";
-                        error_message.innerHTML = text;
-                        return false;
-                    }
-                
-                    // check username
-                    if (!/\S/.test(username))
-                    {
-                        text = "Username should not consist of only space characters!";
-                        error_message.innerHTML = text;
-                        return false;
-                    }
-
-                    // check password
-                    if (password.length < 4)
-                    {
-                        text = "Password consists of at least 4 characters!";
-                        error_message.innerHTML = text;
-                        return false;
-                    }
-
-                    return true; // everything is fine, no errors occurred
+                    text = "First name includes at least two letters and should begin with a capital letter!";
+                    error_message.innerHTML = text;
+                    return false;
                 }
-        </script>
-    </body>
+                
+                // check username
+                if (!/\S/.test(username))
+                {
+                    text = "Username should not consist of only space characters!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                // check password
+                if (password.length < 4)
+                {
+                    text = "Password consists of at least 4 characters!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                return true; // everything is fine, no errors occurred
+            }
+
+    </script>
+
+</body>
+
 </html>

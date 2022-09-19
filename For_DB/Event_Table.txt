@@ -1,0 +1,24 @@
+
+CREATE TABLE "public".Event_table
+(
+ Event_Id       int NOT NULL,
+ Start_Time     time NULL,
+ Owner_Username text NOT NULL,
+ "Date"           date NULL,
+ Collaborators  text NULL,
+ Duration       time NULL,
+ CONSTRAINT PK_12 PRIMARY KEY ( Event_Id ),
+ CONSTRAINT FK_18 FOREIGN KEY ( Owner_Username ) REFERENCES "public".User_Table ( Username )
+);
+
+CREATE INDEX FK_20 ON "public".Event_table
+(
+ Owner_Username
+);
+
+
+
+
+
+
+
