@@ -20,7 +20,7 @@ namespace Callendar.Data
 
         [Required]
         public DateTime time { get; set; }
-
+        
         public bool attend_event {get; set;}
 
         // This is the Foreign key

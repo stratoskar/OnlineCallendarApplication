@@ -18,7 +18,7 @@ namespace OnlineCallendarApplication.Controllers
         private static string USERNAME; // Current User that uses the session
         private static int EVENT_ID; // Current Event
 
-        private List<string> active_users = new List<string>();
+        private List<string> active_users = new List<string>(); // this list contains current users of the application
 
         private readonly ILogger<HomeController> _logger;
 
@@ -69,7 +69,9 @@ namespace OnlineCallendarApplication.Controllers
 
                 // if fail to write down all current users of the application, throw exception
                 if (!Active_Users())
+                {
                     throw new Exception();
+                }
 
                 return View(display_event); // show every event of the Loged-In user
             }
@@ -356,7 +358,6 @@ namespace OnlineCallendarApplication.Controllers
         private bool Active_Users()
         {
             active_users.Clear();
-            active_users.Add("stratoskar");
             try
             {
                 conn.Open();
@@ -390,12 +391,15 @@ namespace OnlineCallendarApplication.Controllers
 
             for (int i = 0; i < col.Length; i++)
             {
+                //##################################3
+                // EΔΩ ΥΠΑΡΧΕΙ ΤΟ ΠΡΟΒΛΗΜΑ
+                //###########################
                 //if (active_users.Contains(col[i]))
                 //{
                     try
                     {
                         // Insert Query
-                        string query = string.Format("INSERT INTO public.\"Notification\" VALUES (DEFAULT,'{0}','{1}','{2}')", USERNAME,col[i],String.Format("{0:d/M/yyyy HH:mm:ss}", time));
+                        string query = string.Format("INSERT INTO public.\"Notification\" VALUES (DEFAULT,'{0}','{1}')", USERNAME,col[i]);
 
                         conn.Open();
 
@@ -411,8 +415,8 @@ namespace OnlineCallendarApplication.Controllers
                         t = false;
                         conn.Close();
                     }
-               // }
-            }
+                }
+            //}
 
             return t;
         }
