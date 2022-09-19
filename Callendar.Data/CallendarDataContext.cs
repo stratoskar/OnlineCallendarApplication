@@ -20,5 +20,6 @@ namespace Callendar.Data
         // create the tables of the database
         public DbSet<User> User { get; set; }
         public DbSet<Event> Event { get; set; }
+        public DbSet<Notification> Notification { get; set; }
     }
 }

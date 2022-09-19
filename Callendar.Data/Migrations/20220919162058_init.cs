@@ -43,9 +43,36 @@ namespace Callendar.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    Notification_ID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Owner_Username = table.Column<string>(type: "text", nullable: false),
+                    invited_person = table.Column<string>(type: "text", nullable: false),
+                    time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    attend_event = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.Notification_ID);
+                    table.ForeignKey(
+                        name: "FK_Notification_User_Owner_Username",
+                        column: x => x.Owner_Username,
+                        principalTable: "User",
+                        principalColumn: "Username",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Event_Owner_Username",
                 table: "Event",
+                column: "Owner_Username");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_Owner_Username",
+                table: "Notification",
                 column: "Owner_Username");
         }
 
@@ -53,6 +80,9 @@ namespace Callendar.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Event");
+
+            migrationBuilder.DropTable(
+                name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "User");

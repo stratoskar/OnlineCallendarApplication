@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\css\**" />
     <Compile Remove="wwwroot\js\**" />
+    <Content Remove="wwwroot\css\**" />
     <Content Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="wwwroot\css\**" />
     <EmbeddedResource Remove="wwwroot\js\**" />
+    <None Remove="wwwroot\css\**" />
     <None Remove="wwwroot\js\**" />
   </ItemGroup>
 
@@ -29,10 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Callendar.Data\Callendar.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
 </Project>

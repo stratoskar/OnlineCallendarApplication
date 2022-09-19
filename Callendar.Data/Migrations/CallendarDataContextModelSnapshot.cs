@@ -46,6 +46,34 @@ namespace Callendar.Data.Migrations
                     b.ToTable("Event");
                 });
 
+            modelBuilder.Entity("Callendar.Data.Notification", b =>
+                {
+                    b.Property<int>("Notification_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<string>("Owner_Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("attend_event")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("invited_person")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("time")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Notification_ID");
+
+                    b.HasIndex("Owner_Username");
+
+                    b.ToTable("Notification");
+                });
+
             modelBuilder.Entity("Callendar.Data.User", b =>
                 {
                     b.Property<string>("Username")
@@ -65,6 +93,17 @@ namespace Callendar.Data.Migrations
                 });
 
             modelBuilder.Entity("Callendar.Data.Event", b =>
+                {
+                    b.HasOne("Callendar.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Owner_Username")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Callendar.Data.Notification", b =>
                 {
                     b.HasOne("Callendar.Data.User", "User")
                         .WithMany()
