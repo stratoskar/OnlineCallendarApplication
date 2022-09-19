@@ -12,11 +12,13 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL database
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=Postgrejo01;");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User that uses the session
         private static int EVENT_ID; // Current Event
+
+        private List<string> active_users = new List<string>();
 
         private readonly ILogger<HomeController> _logger;
 
@@ -65,6 +67,9 @@ namespace OnlineCallendarApplication.Controllers
 
                 conn.Close();
 
+                // if fail to write down all current users of the application, throw exception
+                if (!Active_Users())
+                    throw new Exception();
 
                 return View(display_event); // show every event of the Loged-In user
             }
@@ -325,6 +330,11 @@ namespace OnlineCallendarApplication.Controllers
                 comm.ExecuteNonQuery();
                 conn.Close();
 
+                if (!add_notifications(GivenCollaborators, GivenDateHour))
+                {
+                    throw new Exception();
+                }
+
                 return RedirectToAction("Index"); // after UPDATE query, user will have access to his DASHBOARD
             }
             catch (Exception e)
@@ -340,6 +350,71 @@ namespace OnlineCallendarApplication.Controllers
                 ViewBag.Message = error;
                 return View("Error");
             }
+        }
+
+        // this function saves in a list all active users of the application
+        private bool Active_Users()
+        {
+            active_users.Clear();
+            active_users.Add("stratoskar");
+            try
+            {
+                conn.Open();
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.CommandText = "SELECT \"Username\" FROM public.\"User\""; // select query
+
+                NpgsqlDataReader sdr = comm.ExecuteReader();
+
+                while (sdr.Read()) // read all Usernames from "User" table
+                {
+                    active_users.Add(sdr["Username"].ToString());
+                }
+
+                conn.Close();
+                return true; // everything was ok
+            }
+            catch (Exception e) // Error with the database occured
+            {
+                conn.Close();
+                return false; // failed to do the operation
+            }
+        }
+
+        // this method is used to write down all the notifications occured 
+        private bool add_notifications(string collaborators,DateTime time)
+        {
+            string[] col = collaborators.Split(",");
+
+            bool t = true;
+
+            for (int i = 0; i < col.Length; i++)
+            {
+                //if (active_users.Contains(col[i]))
+                //{
+                    try
+                    {
+                        // Insert Query
+                        string query = string.Format("INSERT INTO public.\"Notification\" VALUES (DEFAULT,'{0}','{1}','{2}')", USERNAME,col[i],String.Format("{0:d/M/yyyy HH:mm:ss}", time));
+
+                        conn.Open();
+
+                        NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+
+                        comm.Connection = conn;
+                        comm.CommandType = CommandType.Text;
+                        comm.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        t = false;
+                        conn.Close();
+                    }
+               // }
+            }
+
+            return t;
         }
     }
 }
