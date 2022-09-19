@@ -3,45 +3,66 @@
 @{
     ViewData["Title"] = "Edit Event";
 }
-<html lang="en">
-    <h1>Edit this Event</h1>
 
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form action="https://localhost:44394/Home/Update_Event"  method="post">
-                <div id="error_message"></div>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Event_ID" />
-                <div class="form-group">
-                    <label asp-for="Date_Hour" class="control-label"></label>
-                    <input asp-for="Date_Hour" class="form-control" name="date-hour" />
-                    <span asp-validation-for="Date_Hour" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Collaborators" class="control-label"></label>
-                    <input asp-for="Collaborators" class="form-control" id="collaborators" name="collaborators" />
-                    <span asp-validation-for="Collaborators" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Duration" class="control-label"></label>
-                    <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
-                    <span asp-validation-for="Duration" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" onclick="return edit_message()" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
+<style>
+    a {
+        font-size: 18px;
+        color: orange;
+    }
 
-    <div>
-        <a asp-action="Index">Back to List</a>
+    * {
+        font-family: candara;
+        color: white;
+        font-family:18px;
+    }
+
+    body {
+        background-color: seagreen;
+    }
+
+    a:hover{
+        color:white;
+    }
+</style>
+
+<br />
+<br />
+<h3>Edit this Event</h3>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form action="https://localhost:44394/Home/Update_Event" onsubmit="return check_collaborators()" method="post">
+            <div id="error_message"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Event_ID" />
+            <div class="form-group">
+                <label asp-for="Date_Hour" class="control-label"></label>
+                <input asp-for="Date_Hour" class="form-control" name="date-hour" />
+                <span asp-validation-for="Date_Hour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Collaborators" class="control-label"></label>
+                <input asp-for="Collaborators" id="colab" class="form-control" id="collaborators" name="collaborators" />
+                <span asp-validation-for="Collaborators" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" name="duration" min="1" max="8" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" onclick="return edit_message()" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-</hmtl>
+</div>
+<br />
+<div>
+    <a onclick="return show_message()" asp-action="Index">Go back to your events</a>
+</div>
 
 <script>
-
     // function that runs before a specific event is going to be updated
     function edit_message() {
         var r = confirm("Are you sure you want to update this event?");
@@ -54,6 +75,29 @@
         }
     }
 
+    // this function is executed as the user clicks on the hyperlink "Go back to your events"
+    function show_message() {
+
+        var r = confirm("Are you sure you want to leave this page?");
+
+        if (r == true) {
+            return true; // event is not going to be updated
+        }
+        else {
+            return false; // event is going to be updated (maybe)
+        }
+    }
+
+    // this function checks if collaborators names are separated not from whitespaces
+    function check_collaborators() {
+        // get the value of "collaborators" input field that user gave
+        var colab = document.getElementById("colab").value;
+
+        if (!/^\S*$/.test(colab)) {
+            alert("Collaborators names should be separated by comma!");
+            return false;   
+        }
+    }
 </script>
 
 @section Scripts {
