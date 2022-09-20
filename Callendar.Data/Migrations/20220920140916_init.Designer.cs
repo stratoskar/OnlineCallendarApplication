@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Callendar.Data.Migrations
 {
     [DbContext(typeof(CallendarDataContext))]
-    [Migration("20220919162058_init")]
+    [Migration("20220920140916_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

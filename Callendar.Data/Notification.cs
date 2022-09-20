@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,7 +21,8 @@ namespace Callendar.Data
 
         [Required]
         public DateTime time { get; set; }
-        
+
+        [DefaultValue(false)]
         public bool attend_event {get; set;}
 
         // This is the Foreign key
