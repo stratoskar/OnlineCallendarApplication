@@ -412,7 +412,7 @@ namespace OnlineCallendarApplication.Controllers
                 conn.Close();
 
                 // add new notifications only if collaborators field is not empty
-                if (!GivenCollaborators.Equals(""))
+                if (!GivenCollaborators.Equals(string.Empty))
                 {
                     // if collaborators field was updated and if its not empty,then add new notifications to database
                     if (!add_notifications(GivenCollaborators, GivenDateHour))
