@@ -283,6 +283,7 @@ namespace OnlineCallendarApplication.Controllers
         }
 
         // Τhis action is called, in order to delete a record (event) that a specific user has
+        // Also, the function removes all the notifications linked with this event
         public IActionResult Delete(int? id)
         {
             try
@@ -349,9 +350,8 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
-       
-        // Update Event method
         // This method is executed as user clicks SUBMIT button in Edit form (this form is located in Edit.cshtml view)
+        // This method also updates all the notifications, as the events are being updated
         public IActionResult Update_Event()
         {
             // Take informtion of Current Event that needs to be updated
@@ -361,24 +361,66 @@ namespace OnlineCallendarApplication.Controllers
 
             try
             {
-                // Update Query
-                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour),GivenCollaborators, GivenDuration, EVENT_ID);
-               
+                // select the previous value of Date_Hour field using select query
+                string query0 = string.Format("SELECT \"Date_Hour\" FROM public.\"Event\" WHERE \"Event_ID\"='{0}'", EVENT_ID);
+
                 conn.Open();
 
-                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+                NpgsqlCommand comm = new NpgsqlCommand(query0, conn);
 
                 comm.Connection = conn;
                 comm.CommandType = CommandType.Text;
                 comm.ExecuteNonQuery();
-                conn.Close();
 
-                // try to add notifications
-                if (!add_notifications(GivenCollaborators, GivenDateHour))
+                NpgsqlDataReader sdr = comm.ExecuteReader();
+                DateTime time_prev = DateTime.Now;
+
+                // read the OLD VALUE of field Date_Time
+                while (sdr.Read())
                 {
-                    throw new Exception();
+                    time_prev = (DateTime)sdr["Date_Hour"]; 
                 }
 
+                conn.Close();
+
+
+                // Now it is time to execute the Update Query on Event table
+                string query = string.Format("UPDATE public.\"Event\" SET \"Date_Hour\" = '{0}', \"Collaborators\" = '{1}', \"Duration\" = '{2}' WHERE \"Event_ID\"='{3}'", String.Format("{0:d/M/yyyy HH:mm:ss}", GivenDateHour),GivenCollaborators, GivenDuration, EVENT_ID);
+               
+                conn.Open();
+
+                NpgsqlCommand comm1 = new NpgsqlCommand(query, conn);
+
+                comm1.Connection = conn;
+                comm1.CommandType = CommandType.Text;
+                comm1.ExecuteNonQuery();
+                conn.Close();
+
+                // ADD UPDATED NOTIFICATIONS TO NOTIFICATION TABLE OF THE DATABASE
+                
+                // Execute DELETE query
+                // DELETE EVERY NOTIFICATION THAT IS CONNECTED WITH THE EVENT THAT WAS BEING DELETED
+                string query2 = string.Format("DELETE FROM public.\"Notification\" WHERE \"Owner_Username\"='{0}' and \"time\"='{1}'", USERNAME, String.Format("{0:d/M/yyyy HH:mm:ss}", time_prev));
+
+                conn.Open();
+
+                NpgsqlCommand comm2 = new NpgsqlCommand(query2, conn);
+
+                comm2.Connection = conn;
+                comm2.CommandType = CommandType.Text;
+                comm2.ExecuteNonQuery();
+                conn.Close();
+
+                // add new notifications only if collaborators field is not empty
+                if (!GivenCollaborators.Equals(""))
+                {
+                    // if collaborators field was updated and if its not empty,then add new notifications to database
+                    if (!add_notifications(GivenCollaborators, GivenDateHour))
+                    {
+                        throw new Exception();
+                    }
+                }
+                
                 return RedirectToAction("Index"); // after UPDATE query, user will have access to his DASHBOARD
             }
             catch (Exception e)
