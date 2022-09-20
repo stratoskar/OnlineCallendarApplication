@@ -287,8 +287,7 @@ namespace OnlineCallendarApplication.Controllers
         {
             try
             {
-                // Execute DELETE query
-                string query = string.Format("DELETE FROM public.\"Event\" WHERE \"Event_ID\"='{0}'", id);
+                string query = string.Format("SELECT * FROM public.\"Event\" WHERE \"Event_ID\"='{0}'", id);
 
                 conn.Open();
 
@@ -297,9 +296,44 @@ namespace OnlineCallendarApplication.Controllers
                 comm.Connection = conn;
                 comm.CommandType = CommandType.Text;
                 comm.ExecuteNonQuery();
+
+                NpgsqlDataReader sdr = comm.ExecuteReader();
+                var event_list = new Event();
+
+                while (sdr.Read())
+                {
+                    event_list.Owner_Username = sdr["Owner_Username"].ToString();
+                    event_list.Date_Hour = (DateTime)sdr["Date_Hour"];
+                }
+
                 conn.Close();
 
-               return RedirectToAction("Index");
+                // Execute DELETE query (delete needed event)
+                string query1 = string.Format("DELETE FROM public.\"Event\" WHERE \"Event_ID\"='{0}'", id);
+
+                    conn.Open();
+
+                    NpgsqlCommand comm1 = new NpgsqlCommand(query1, conn);
+
+                    comm1.Connection = conn;
+                    comm1.CommandType = CommandType.Text;
+                    comm1.ExecuteNonQuery();
+                    conn.Close();
+
+                // Execute DELETE query
+                // DELETE EVERY NOTIFICATION THAT IS CONNECTED WITH THE EVENT THAT WAS BEING DELETED
+                string query2 = string.Format("DELETE FROM public.\"Notification\" WHERE \"Owner_Username\"='{0}' and \"time\"='{1}'", event_list.Owner_Username, String.Format("{0:d/M/yyyy HH:mm:ss}", event_list.Date_Hour));
+
+                conn.Open();
+
+                NpgsqlCommand comm2 = new NpgsqlCommand(query2, conn);
+
+                comm2.Connection = conn;
+                comm2.CommandType = CommandType.Text;
+                comm2.ExecuteNonQuery();
+                conn.Close();
+
+                return RedirectToAction("Index");
             }
             catch (Exception e) // DB connection exception
             {
