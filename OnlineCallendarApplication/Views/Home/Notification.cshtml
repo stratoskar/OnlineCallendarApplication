@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Callendar.Data.Notification>
+
+@{
+    ViewData["Title"] = "Notification";
+}
+
+<h1>Notification</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner_Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.time)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Owner_Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.time)
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Notification_ID">Yes</a>|
+                        <a asp-action="Delete" asp-route-id="@item.Notification_ID">No</a>|
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

@@ -38,6 +38,53 @@ namespace OnlineCallendarApplication.Controllers
             return View();
         }
 
+        public IActionResult Notification()
+        {
+            try
+            {
+                List<Notification> all_notifications = new List<Notification>();
+
+                string query = string.Format("SELECT * FROM public.\"Notification\" WHERE \"invited_person\"='{0}'", USERNAME);
+
+                conn.Open();
+
+                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.ExecuteNonQuery();
+
+                NpgsqlDataReader sdr = comm.ExecuteReader();
+
+                while (sdr.Read()) // read information from "Notification" table
+                {
+                    // show every notification of current user
+                    var notification = new Notification();
+                    notification.Owner_Username = sdr["Owner_Username"].ToString();
+                    notification.time = (DateTime)sdr["time"];
+                    all_notifications.Add(notification);
+                }
+
+                conn.Close();
+
+                return View(all_notifications);
+            }
+            catch(Exception e)
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Problem with the Database!";
+                };
+
+                ViewBag.Message = error; // show error to user
+
+                return View("Error");
+            }
+        }
+
+
         // Index controller (is executed when Index view is loading)
         public IActionResult Index()
         {
