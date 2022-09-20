@@ -69,10 +69,10 @@ namespace OnlineCallendarApplication.Controllers
                 conn.Close();
 
                 // if fail to write down all current users of the application, throw exception
-                if (!Active_Users())
+                /*if (!Active_Users())
                 {
                     throw new Exception();
-                }
+                }*/
 
                 return View(display_event); // show every event of the Loged-In user
             }
@@ -259,6 +259,12 @@ namespace OnlineCallendarApplication.Controllers
                 comm.ExecuteNonQuery();
                 conn.Close();
 
+                // add notifications for the newlly created event
+                if (!add_notifications(GivenCollaborators, GivenDateHour))
+                {
+                    throw new Exception();
+                }
+
                 return RedirectToAction("Index"); // after INSERT query, user will have access to his DASHBOARD
             }
             catch (Exception e)
@@ -333,6 +339,7 @@ namespace OnlineCallendarApplication.Controllers
                 comm.ExecuteNonQuery();
                 conn.Close();
 
+                // try to add notifications
                 if (!add_notifications(GivenCollaborators, GivenDateHour))
                 {
                     throw new Exception();
@@ -355,6 +362,7 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
+        /*
         // this function saves in a list all active users of the application
         private bool Active_Users()
         {
@@ -382,6 +390,7 @@ namespace OnlineCallendarApplication.Controllers
                 return false; // failed to do the operation
             }
         }
+        */
 
         // this method is used to write down all the notifications occured 
         private bool add_notifications(string collaborators,DateTime time)
@@ -395,7 +404,7 @@ namespace OnlineCallendarApplication.Controllers
                 try
                 {
                     // Insert Query
-                    string query = string.Format("INSERT INTO public.\"Notification\" VALUES (DEFAULT,'{0}','{1}')", USERNAME,col[i]);
+                    string query = string.Format("INSERT INTO public.\"Notification\" VALUES (DEFAULT,'{0}','{1}','{2}')", USERNAME,col[i], String.Format("{0:d/M/yyyy HH:mm:ss}", time));
 
                     conn.Open();
 
