@@ -22,8 +22,7 @@ namespace Callendar.Data
         [Required]
         public DateTime time { get; set; }
 
-        [DefaultValue(false)]
-        public bool attend_event {get; set;}
+        public string attend_event {get; set;}
 
         // This is the Foreign key
         public virtual User User { get; set; }

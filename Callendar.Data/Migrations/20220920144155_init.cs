@@ -52,7 +52,7 @@ namespace Callendar.Data.Migrations
                     Owner_Username = table.Column<string>(type: "text", nullable: false),
                     invited_person = table.Column<string>(type: "text", nullable: false),
                     time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    attend_event = table.Column<bool>(type: "boolean", nullable: false)
+                    attend_event = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
