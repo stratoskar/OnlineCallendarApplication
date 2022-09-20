@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Npgsql;
 using System.Data;
 using Callendar.Data;
+using System.Linq;
 
 namespace OnlineCallendarApplication.Controllers
 {
@@ -391,32 +392,26 @@ namespace OnlineCallendarApplication.Controllers
 
             for (int i = 0; i < col.Length; i++)
             {
-                //##################################3
-                // EΔΩ ΥΠΑΡΧΕΙ ΤΟ ΠΡΟΒΛΗΜΑ
-                //###########################
-                //if (active_users.Contains(col[i]))
-                //{
-                    try
-                    {
-                        // Insert Query
-                        string query = string.Format("INSERT INTO public.\"Notification\" VALUES (DEFAULT,'{0}','{1}')", USERNAME,col[i]);
+                try
+                {
+                    // Insert Query
+                    string query = string.Format("INSERT INTO public.\"Notification\" VALUES (DEFAULT,'{0}','{1}')", USERNAME,col[i]);
 
-                        conn.Open();
+                    conn.Open();
 
-                        NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+                    NpgsqlCommand comm = new NpgsqlCommand(query, conn);
 
-                        comm.Connection = conn;
-                        comm.CommandType = CommandType.Text;
-                        comm.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        t = false;
-                        conn.Close();
-                    }
+                    comm.Connection = conn;
+                    comm.CommandType = CommandType.Text;
+                    comm.ExecuteNonQuery();
+                    conn.Close();
                 }
-            //}
+                catch (Exception e)
+                {
+                    t = false;
+                    conn.Close();
+                }
+            }
 
             return t;
         }
