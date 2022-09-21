@@ -119,12 +119,6 @@ namespace OnlineCallendarApplication.Controllers
 
                 conn.Close();
 
-                // if fail to write down all current users of the application, throw exception
-                /*if (!Active_Users())
-                {
-                    throw new Exception();
-                }*/
-
                 return View(display_event); // show every event of the Loged-In user
             }
             catch(Exception e) // Error with the database occured
@@ -520,36 +514,6 @@ namespace OnlineCallendarApplication.Controllers
                 return View("Error");
             }
         }
-
-        /*
-        // this function saves in a list all active users of the application
-        private bool Active_Users()
-        {
-            active_users.Clear();
-            try
-            {
-                conn.Open();
-                comm.Connection = conn;
-                comm.CommandType = CommandType.Text;
-                comm.CommandText = "SELECT \"Username\" FROM public.\"User\""; // select query
-
-                NpgsqlDataReader sdr = comm.ExecuteReader();
-
-                while (sdr.Read()) // read all Usernames from "User" table
-                {
-                    active_users.Add(sdr["Username"].ToString());
-                }
-
-                conn.Close();
-                return true; // everything was ok
-            }
-            catch (Exception e) // Error with the database occured
-            {
-                conn.Close();
-                return false; // failed to do the operation
-            }
-        }
-        */
 
         // this method is used to write down all the notifications occured 
         private bool add_notifications(string collaborators,DateTime time)
