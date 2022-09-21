@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Callendar.Data.Migrations
 {
     [DbContext(typeof(CallendarDataContext))]
-    [Migration("20220921123614_init")]
+    [Migration("20220921163939_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,9 +57,6 @@ namespace Callendar.Data.Migrations
 
                     b.Property<string>("Owner_Username")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("attend_event")
                         .HasColumnType("text");
 
                     b.Property<string>("invited_person")

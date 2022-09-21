@@ -57,9 +57,6 @@ namespace Callendar.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("attend_event")
-                        .HasColumnType("text");
-
                     b.Property<string>("invited_person")
                         .IsRequired()
                         .HasColumnType("text");

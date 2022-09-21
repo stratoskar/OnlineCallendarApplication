@@ -51,8 +51,7 @@ namespace Callendar.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Owner_Username = table.Column<string>(type: "text", nullable: false),
                     invited_person = table.Column<string>(type: "text", nullable: false),
-                    time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    attend_event = table.Column<string>(type: "text", nullable: true)
+                    time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {

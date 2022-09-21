@@ -4,24 +4,56 @@
     ViewData["Title"] = "Notification";
 }
 
-<h1>Notification</h1>
+<style>
+    a {
+        font-size: 18px;
+        color: orange;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Owner_Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.time)
-            </th>
+    * {
+        font-family: candara;
+        color: white;
+        font-family: 18px;
+    }
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
+    body {
+        background-color: seagreen;
+    }
+
+    a:hover {
+        color: white;
+    }
+</style>
+
+<br />
+<br />
+<h3>Here are your current notifications:</h3>
+<br />
+<br />
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notification_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Owner_Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.time)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notification_ID)
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Owner_Username)
                     </td>
@@ -29,10 +61,15 @@
                         @Html.DisplayFor(modelItem => item.time)
                     </td>
                     <td>
-                        <a asp-action="Delete" asp-route-id="@item.Notification_ID">Yes</a>|
-                        <a asp-action="Delete" asp-route-id="@item.Notification_ID">No</a>|
+                        <a asp-action="Delete_Notification" asp-route-id="@item.Notification_ID">Accept</a> |
+                        <a asp-action="Delete_Notification" asp-route-id="@item.Notification_ID">Decline</a>
                     </td>
                 </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+    <br />
+    <div>
+        <a onclick="return show_message()" asp-action="Index">Go back to your events</a>
+    </div>
+</body>

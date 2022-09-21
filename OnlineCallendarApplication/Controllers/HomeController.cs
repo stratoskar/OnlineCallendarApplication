@@ -13,7 +13,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL database
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001;");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User that uses the session
@@ -38,10 +38,12 @@ namespace OnlineCallendarApplication.Controllers
             return View();
         }
    
+        // this method is executed when Notification view is loading
         public IActionResult Notification()
         {
             try
             {
+                // try to read all notification (from database) that user has been invited
                 List<Notification> all_notifications = new List<Notification>();
 
                 string query = string.Format("SELECT * FROM public.\"Notification\" WHERE \"invited_person\"='{0}'", USERNAME);
@@ -60,6 +62,7 @@ namespace OnlineCallendarApplication.Controllers
                 {
                     // show every notification of current user
                     var notification = new Notification();
+                    notification.Notification_ID = (int)sdr["Notification_ID"];
                     notification.Owner_Username = sdr["Owner_Username"].ToString();
                     notification.time = (DateTime)sdr["time"];
                     all_notifications.Add(notification);
@@ -85,11 +88,12 @@ namespace OnlineCallendarApplication.Controllers
         }
 
 
-        // Index controller (is executed when Index view is loading)
+        // Index method (is executed when Index view is loading)
         public IActionResult Index()
         {
             try
             {
+                // select from database all the events that user has created
                 List<Event> display_event = new List<Event>();
 
                 conn.Open();
@@ -242,13 +246,12 @@ namespace OnlineCallendarApplication.Controllers
             }
         }
 
-        // This method is called in order to add a new user
-        // to database
+        // This method is called, in order to add a new user to the database of the system
         public IActionResult RegisterInsertion(string username, string fullname, string password)
         {
             try
             {
-                // Execute INSERT query of neww user to database
+                // Execute INSERT query of new user to database
                 string query = string.Format("Insert into public.\"User\" values ('{0}','{1}','{2}')", username, fullname, password);
 
                 conn.Open();
@@ -322,6 +325,39 @@ namespace OnlineCallendarApplication.Controllers
                 {
                     error.Explain = "Problem with the Database!";
                     error.Explain = e.ToString();
+                };
+
+                ViewBag.Message = error;
+                return View("Error");
+            }
+        }
+
+        // This function is used to delete a notification when user clicks "Attend" or "Decline"
+        public IActionResult Delete_Notification(int? id) 
+        {
+            try
+            {
+                // Execute DELETE query (delete notification with specific ID)
+                string query = string.Format("DELETE FROM public.\"Notification\" WHERE \"Notification_ID\"='{0}'", id);
+
+                conn.Open();
+
+                NpgsqlCommand comm = new NpgsqlCommand(query, conn);
+
+                comm.Connection = conn;
+                comm.CommandType = CommandType.Text;
+                comm.ExecuteNonQuery();
+                conn.Close();
+
+                return RedirectToAction("Notification");
+            }
+            catch (Exception e) // DB connection exception
+            {
+                conn.Close();
+
+                ErrorViewModel error = new ErrorViewModel();
+                {
+                    error.Explain = "Problem with the Database!";
                 };
 
                 ViewBag.Message = error;
@@ -524,6 +560,8 @@ namespace OnlineCallendarApplication.Controllers
 
             for (int i = 0; i < col.Length; i++)
             {
+                if (col[i].Equals(USERNAME)) // user can not notify himself
+                    continue;
                 try
                 {
                     // Insert Query
