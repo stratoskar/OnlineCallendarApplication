@@ -13,7 +13,7 @@ namespace OnlineCallendarApplication.Controllers
     public class HomeController : Controller
     {
         // Create connection with PostgreSQL database
-        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=sobadata2;");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Database=Callendar_DB;Port=5432;User Id=postgres;Password=grepolis2001;");
         NpgsqlCommand comm = new NpgsqlCommand();
 
         private static string USERNAME; // Current User that uses the session
